@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investment Strategies & Profit Multiplier | FinAdvisor AI</title>
+    <link rel="stylesheet" href="investments.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>₹</text></svg>">
+    <!-- Chart.js for compounding visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- DYNAMIC AMBIENT BACKGROUND -->
+    <div class="ambient-background" aria-hidden="true">
+        <div class="ambient-grid"></div>
+        <div class="ambient-orb orb-1"></div>
+        <div class="ambient-orb orb-2"></div>
+        <div class="ambient-orb orb-3"></div>
+        <div class="ambient-orb orb-4"></div>
+    </div>
+
+    <!-- TOP NAVIGATION -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/input.html" class="brand">
+                <div class="brand-icon">₹</div>
+                <div>
+                    <span class="brand-text">FinAdvisor</span>
+                    <span class="brand-badge">Wealth Multiplier</span>
+                </div>
+            </a>
+            <div class="nav-actions">
+                <a href="/input.html" class="btn-nav-outline" title="Back to Inputs">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    <span>Assessment</span>
+                </a>
+
+                <a href="/report.html" class="btn-nav-outline" title="View Financial Report">
+                    <span>Advisory Report</span>
+                </a>
+
+                <div class="user-profile">
+                    <div class="user-avatar" id="invUserAvatar">U</div>
+                    <span id="invUserEmail">client@finadvisor.ai</span>
+                </div>
+
+                <a href="/logout" class="btn-nav-outline" title="Log Out">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-layout">
+
+        <!-- HEADER -->
+        <header class="page-header">
+            <div class="page-tag">
+                <span style="color: var(--accent-emerald);">📈</span>
+                Capital Deployment & Profit Strategies
+            </div>
+            <h1 class="page-title">
+                Deploying Your <span class="gradient-text">Saved Capital for Profit</span>
+            </h1>
+            <p class="page-subtitle">
+                Idle money sitting in regular savings accounts loses purchasing power to inflation. Put your monthly cashflow surplus and savings to work through structured compounding and alternative yield channels.
+            </p>
+        </header>
+
+        <!-- LIVE CAPITAL BAROMETER (SYNCED FROM ASSESSMENT) -->
+        <section class="capital-barometer" id="capitalBarometer">
+            <div class="barometer-meta">
+                <div class="dossier-tag" style="color: var(--accent-cyan);">Synced Client Capital Barometer</div>
+                <h2 style="font-size: 22px; font-weight: 800; color: #fff;">Available Deployment Capacity</h2>
+                <div style="font-size: 13px; color: var(--text-secondary);">Calculated from your latest financial assessment profile</div>
+            </div>
+
+            <div class="barometer-stats-row">
+                <div class="barometer-stat-item">
+                    <div class="barometer-stat-label">Deployable Monthly Surplus</div>
+                    <div class="barometer-stat-val accent-green" id="barometerSurplus">₹20,000 / mo</div>
+                </div>
+
+                <div class="barometer-stat-item">
+                    <div class="barometer-stat-label">Existing Liquid Savings</div>
+                    <div class="barometer-stat-val accent-cyan" id="barometerSavings">₹1,50,000</div>
+                </div>
+
+                <div class="barometer-stat-item">
+                    <div class="barometer-stat-label">Current Savings Rate</div>
+                    <div class="barometer-stat-val" id="barometerRate">28.5%</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 1: 4-TIER CAPITAL ALLOCATION BLUEPRINT -->
+        <section style="margin-bottom: 45px;">
+            <div style="margin-bottom: 24px;">
+                <h2 style="font-size: 24px; font-weight: 800; color: var(--text-bright);">
+                    The 4-Tier Institutional Capital Allocation Blueprint
+                </h2>
+                <p style="font-size: 14.5px; color: var(--text-secondary);">
+                    Professional wealth managers never place 100% of capital into a single basket. They construct a 4-tiered shield balancing safety, growth, passive yield, and alpha profit.
+                </p>
+            </div>
+
+            <div class="tier-blueprint-grid">
+
+                <!-- TIER 1 -->
+                <div class="tier-card">
+                    <div class="tier-badge tier-1-badge">Tier 1 &bull; Safety (20%)</div>
+                    <h3 class="tier-title">Liquidity & Shock Absorber</h3>
+                    <div class="tier-yield">6.8% – 7.4%</div>
+                    <p class="tier-role">
+                        Protects against emergencies and volatile drawdowns. Keeps 3–6 months of essential living costs instantly accessible without market penalty.
+                    </p>
+                    <div class="tier-instruments-box">
+                        <div class="tier-instruments-title">Recommended Vehicles:</div>
+                        <ul class="tier-instruments-list">
+                            <li>&bull; High-Yield Flexi-Fixed Deposits</li>
+                            <li>&bull; Arbitrage Mutual Funds (Tax-efficient)</li>
+                            <li>&bull; Ultra-Short Duration Debt Funds</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- TIER 2 -->
+                <div class="tier-card">
+                    <div class="tier-badge tier-2-badge">Tier 2 &bull; Growth (45%)</div>
+                    <h3 class="tier-title">Core Compounding Engine</h3>
+                    <div class="tier-yield">12.0% – 14.0% CAGR</div>
+                    <p class="tier-role">
+                        The primary engine that beats inflation and doubles capital over 5–7 years through broad-market economic expansion and business earnings.
+                    </p>
+                    <div class="tier-instruments-box">
+                        <div class="tier-instruments-title">Recommended Vehicles:</div>
+                        <ul class="tier-instruments-list">
+                            <li>&bull; Nifty 50 & Nifty Next 50 Index SIPs</li>
+                            <li>&bull; Diversified Flexi-Cap Mutual Funds</li>
+                            <li>&bull; S&P 500 US Market Allocation (5–10%)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- TIER 3 -->
+                <div class="tier-card">
+                    <div class="tier-badge tier-3-badge">Tier 3 &bull; Yield (20%)</div>
+                    <h3 class="tier-title">Passive Income & Inflation Hedge</h3>
+                    <div class="tier-yield">7.5% – 9.5% + Growth</div>
+                    <p class="tier-role">
+                        Generates regular cash dividends and sovereign gold appreciation to buffer against rupee depreciation and currency volatility.
+                    </p>
+                    <div class="tier-instruments-box">
+                        <div class="tier-instruments-title">Recommended Vehicles:</div>
+                        <ul class="tier-instruments-list">
+                            <li>&bull; REITs (Real Estate Investment Trusts)</li>
+                            <li>&bull; Sovereign Gold Bonds (2.5% p.a. + Gold)</li>
+                            <li>&bull; Infrastructure Investment Trusts (InvITs)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- TIER 4 -->
+                <div class="tier-card">
+                    <div class="tier-badge tier-4-badge">Tier 4 &bull; Alpha (15%)</div>
+                    <h3 class="tier-title">Alternative High-Profit Alpha</h3>
+                    <div class="tier-yield">14.0% – 18.0%+</div>
+                    <p class="tier-role">
+                        Calculated aggressive capital deployment into high-growth sectors, small-cap innovators, and structured corporate senior debt.
+                    </p>
+                    <div class="tier-instruments-box">
+                        <div class="tier-instruments-title">Recommended Vehicles:</div>
+                        <ul class="tier-instruments-list">
+                            <li>&bull; Quality Small-Cap Active Funds</li>
+                            <li>&bull; Thematic/Sectoral Growth ETFs</li>
+                            <li>&bull; High-Yield Senior Secured Debt</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 2: INTERACTIVE COMPOUND PROFIT & WEALTH MULTIPLIER SIMULATOR -->
+        <section class="simulator-section">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+                <div>
+                    <div class="page-tag" style="margin-bottom: 8px;">
+                        <span style="color: var(--accent-cyan);">⚡</span>
+                        Real-Time Compounding Calculator
+                    </div>
+                    <h2 style="font-size: 26px; font-weight: 800; color: var(--text-bright);">
+                        Wealth Multiplier & Profit Projection Simulator
+                    </h2>
+                    <p style="font-size: 14px; color: var(--text-secondary);">
+                        Simulate the power of compounding on your monthly surplus and existing capital.
+                    </p>
+                </div>
+                <button type="button" class="btn-secondary" id="btnSyncWithAssessment">
+                    🔄 Sync From Assessment
+                </button>
+            </div>
+
+            <div class="simulator-grid">
+                <!-- CONTROLS -->
+                <div class="simulator-controls">
+                    <!-- INITIAL CAPITAL -->
+                    <div class="slider-group">
+                        <div class="slider-label-row">
+                            <span class="slider-title">Initial Lump-Sum Investment (₹)</span>
+                            <span class="slider-current-val" id="valInitialLumpSum">₹1,00,000</span>
+                        </div>
+                        <input type="range" id="rangeLumpSum" class="custom-range" min="0" max="1000000" step="10000" value="100000">
+                    </div>
+
+                    <!-- MONTHLY SIP -->
+                    <div class="slider-group">
+                        <div class="slider-label-row">
+                            <span class="slider-title">Monthly SIP Contribution (₹)</span>
+                            <span class="slider-current-val" id="valMonthlySip">₹15,000</span>
+                        </div>
+                        <input type="range" id="rangeMonthlySip" class="custom-range" min="1000" max="100000" step="1000" value="15000">
+                    </div>
+
+                    <!-- TIME HORIZON -->
+                    <div class="slider-group">
+                        <div class="slider-label-row">
+                            <span class="slider-title">Investment Horizon (Years)</span>
+                            <span class="slider-current-val" id="valHorizon">5 Years</span>
+                        </div>
+                        <input type="range" id="rangeHorizon" class="custom-range" min="1" max="25" step="1" value="5">
+                    </div>
+
+                    <!-- EXPECTED RETURN / RISK PRESETS -->
+                    <div class="slider-group">
+                        <div class="slider-label-row">
+                            <span class="slider-title">Expected Annual Return (CAGR)</span>
+                            <span class="slider-current-val" id="valCagr">12%</span>
+                        </div>
+                        <div class="risk-toggles-row">
+                            <button type="button" class="risk-toggle-btn" data-cagr="8">Conservative (8%)</button>
+                            <button type="button" class="risk-toggle-btn active" data-cagr="12">Balanced (12%)</button>
+                            <button type="button" class="risk-toggle-btn" data-cagr="15">Aggressive (15%)</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SIMULATOR OUTPUT STATS & CHART -->
+                <div class="sim-results-card">
+                    <div class="sim-output-row">
+                        <span class="sim-output-label">Total Principal Invested</span>
+                        <span class="sim-output-number" id="simTotalInvested">₹10,00,000</span>
+                    </div>
+
+                    <div class="sim-output-row">
+                        <span class="sim-output-label">Estimated Wealth Gain (Profit)</span>
+                        <span class="sim-output-number" style="color: #34d399;" id="simProfitGained">₹4,25,000</span>
+                    </div>
+
+                    <div class="sim-corpus-box">
+                        <div class="sim-corpus-title">Projected Terminal Wealth Corpus</div>
+                        <div class="sim-corpus-amount" id="simTotalCorpus">₹14,25,000</div>
+                    </div>
+
+                    <div style="height: 180px; width: 100%; position: relative; margin-top: 10px;">
+                        <canvas id="growthProjectionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: COMPREHENSIVE ALTERNATIVE INVESTMENT CATALOG -->
+        <section style="margin-bottom: 45px;">
+            <div style="margin-bottom: 24px;">
+                <h2 style="font-size: 24px; font-weight: 800; color: var(--text-bright);">
+                    Alternative & Diversified Investment Vehicles
+                </h2>
+                <p style="font-size: 14.5px; color: var(--text-secondary);">
+                    Explore how each asset class functions, its risk-to-reward ratio, and how to utilize it for steady profit creation.
+                </p>
+            </div>
+
+            <div class="catalog-grid">
+
+                <!-- CARD 1: INDEX & FLEXI-CAP EQUITIES -->
+                <div class="catalog-card">
+                    <div class="catalog-card-icon">📊</div>
+                    <h3 class="catalog-card-title">Broad Index & Flexi-Cap Funds</h3>
+                    <div class="catalog-tags-row">
+                        <span class="catalog-pill green">12%–14% CAGR</span>
+                        <span class="catalog-pill">Moderate Risk</span>
+                        <span class="catalog-pill">High Liquidity</span>
+                    </div>
+                    <p class="catalog-card-desc">
+                        Passive investments tracking India's top 50/100 companies or flexible market caps. Eliminates individual company risk and compounds steadily with the broader economy.
+                    </p>
+                    <div class="catalog-meta-box">
+                        <span>How to Use:</span>
+                        <strong style="color: #fff;">Monthly Automated SIP</strong>
+                    </div>
+                </div>
+
+                <!-- CARD 2: REITS -->
+                <div class="catalog-card">
+                    <div class="catalog-card-icon">🏢</div>
+                    <h3 class="catalog-card-title">Real Estate Investment Trusts (REITs)</h3>
+                    <div class="catalog-tags-row">
+                        <span class="catalog-pill green">7%–9% Dividends + Growth</span>
+                        <span class="catalog-pill">Moderate Risk</span>
+                        <span class="catalog-pill">Traded on NSE/BSE</span>
+                    </div>
+                    <p class="catalog-card-desc">
+                        Own institutional-grade commercial real estate (tech parks, malls) with minimal capital. Mandated by SEBI to distribute 90% of net rental income as regular dividends.
+                    </p>
+                    <div class="catalog-meta-box">
+                        <span>How to Use:</span>
+                        <strong style="color: #fff;">Quarterly Passive Income</strong>
+                    </div>
+                </div>
+
+                <!-- CARD 3: SOVEREIGN GOLD BONDS -->
+                <div class="catalog-card">
+                    <div class="catalog-card-icon">🪙</div>
+                    <h3 class="catalog-card-title">Sovereign Gold Bonds (SGBs)</h3>
+                    <div class="catalog-tags-row">
+                        <span class="catalog-pill green">2.5% Coupon + Gold Rise</span>
+                        <span class="catalog-pill">Sovereign Guarantee</span>
+                        <span class="catalog-pill">Tax-Free at 8 Yrs</span>
+                    </div>
+                    <p class="catalog-card-desc">
+                        Issued by the Reserve Bank of India. You receive a guaranteed 2.5% annual interest credited to your bank account plus 100% of gold's capital gains with zero locker fees.
+                    </p>
+                    <div class="catalog-meta-box">
+                        <span>How to Use:</span>
+                        <strong style="color: #fff;">Long-term Inflation Hedge</strong>
+                    </div>
+                </div>
+
+                <!-- CARD 4: ARBITRAGE & LIQUID FUNDS -->
+                <div class="catalog-card">
+                    <div class="catalog-card-icon">🛡️</div>
+                    <h3 class="catalog-card-title">Arbitrage & Liquid Debt Funds</h3>
+                    <div class="catalog-tags-row">
+                        <span class="catalog-pill green">6.8%–7.5% Return</span>
+                        <span class="catalog-pill">Ultra-Low Risk</span>
+                        <span class="catalog-pill">T+1 Liquidity</span>
+                    </div>
+                    <p class="catalog-card-desc">
+                        Exploits simultaneous price differences between the cash and futures equity markets. Zero equity direction risk, taxed favorably, and vastly outperforms basic savings accounts.
+                    </p>
+                    <div class="catalog-meta-box">
+                        <span>How to Use:</span>
+                        <strong style="color: #fff;">Emergency Fund Parking</strong>
+                    </div>
+                </div>
+
+                <!-- CARD 5: DIVIDEND ARISTOCRATS -->
+                <div class="catalog-card">
+                    <div class="catalog-card-icon">💰</div>
+                    <h3 class="catalog-card-title">High-Yield Dividend Stocks / ETFs</h3>
+                    <div class="catalog-tags-row">
+                        <span class="catalog-pill green">5%–7% Dividend + Growth</span>
+                        <span class="catalog-pill">Moderate-Low Risk</span>
+                        <span class="catalog-pill">Cash Inflows</span>
+                    </div>
+                    <p class="catalog-card-desc">
+                        Investment in mature, cashflow-generative blue-chip companies (e.g. Nifty Dividend Opportunities Index) that consistently pay healthy cash yields to shareholders.
+                    </p>
+                    <div class="catalog-meta-box">
+                        <span>How to Use:</span>
+                        <strong style="color: #fff;">Self-Sustaining Cashflow</strong>
+                    </div>
+                </div>
+
+                <!-- CARD 6: STRUCTURED SENIOR DEBT -->
+                <div class="catalog-card">
+                    <div class="catalog-card-icon">⚡</div>
+                    <h3 class="catalog-card-title">Senior Secured Corporate Debt</h3>
+                    <div class="catalog-tags-row">
+                        <span class="catalog-pill green">9.5%–11.5% Yield</span>
+                        <span class="catalog-pill">Moderate-High Risk</span>
+                        <span class="catalog-pill">Fixed Tenor</span>
+                    </div>
+                    <p class="catalog-card-desc">
+                        Alternative debt instruments backed by company assets. Offers substantially higher fixed interest than traditional bank deposits for investors seeking predictable returns.
+                    </p>
+                    <div class="catalog-meta-box">
+                        <span>How to Use:</span>
+                        <strong style="color: #fff;">5–10% High-Yield Sleeve</strong>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 4: AI CUSTOM PORTFOLIO GENERATOR (POWERED BY GEMINI) -->
+        <section class="ai-strategy-card" id="aiStrategySection">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+                <div>
+                    <div class="dossier-tag" style="color: var(--primary-light);">Gemini AI Portfolio Architect</div>
+                    <h2 style="font-size: 26px; font-weight: 800; color: #fff; margin: 4px 0 6px;">
+                        Generate Custom Investment Blueprint
+                    </h2>
+                    <p style="font-size: 14.5px; color: var(--text-secondary); max-width: 640px;">
+                        Let Gemini synthesize an exact rupee allocation across these asset classes based on your current surplus and selected risk tolerance.
+                    </p>
+                </div>
+
+                <button type="button" class="btn-primary" id="btnGenerateAiStrategy">
+                    <span>Generate AI Deployment Strategy</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- DYNAMIC AI STRATEGY CONTAINER -->
+            <div id="aiStrategyResultsContainer" style="display: none; margin-top: 30px; border-top: 1px solid var(--border-subtle); padding-top: 25px;">
+                <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
+                    <div>
+                        <h3 style="font-size: 20px; font-weight: 800; color: #fff;" id="strategyPortfolioName">Strategic Growth & Yield Blueprint</h3>
+                        <p style="font-size: 14px; color: #94a3b8;" id="strategyRationale">Strategic summary...</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <span class="brand-badge" id="strategyExpectedCagr">12%–14% CAGR</span>
+                        <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;" id="strategyRiskRating">Balanced Profile</div>
+                    </div>
+                </div>
+
+                <!-- TIER ALLOCATION ITEMS -->
+                <div class="strategy-breakdown-list" id="strategyTiersList">
+                    <!-- Dynamic tiers injected here -->
+                </div>
+
+                <!-- PROFIT TACTICS -->
+                <div style="margin-top: 24px; background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: var(--radius-md); padding: 20px 24px;">
+                    <div style="font-size: 12px; text-transform: uppercase; font-weight: 700; color: #34d399; margin-bottom: 8px;">
+                        Key Profit Maximization Tactics
+                    </div>
+                    <ul id="strategyTacticsList" style="list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; color: #e2e8f0;">
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER NAVIGATION ACTIONS -->
+        <div class="report-footer-actions">
+            <a href="/input.html" class="btn-secondary" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                <span>Edit Financial Inflows (input.html)</span>
+            </a>
+
+            <a href="/report.html" class="btn-primary" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+                <span>View Full Advisory Dossier</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </a>
+        </div>
+
+    </main>
+
+    <script src="investments.js"></script>
+</body>
+</html>

@@ -11,6 +11,15 @@
 </head>
 <body>
 
+    <!-- DYNAMIC AMBIENT BACKGROUND -->
+    <div class="ambient-background" aria-hidden="true">
+        <div class="ambient-grid"></div>
+        <div class="ambient-orb orb-1"></div>
+        <div class="ambient-orb orb-2"></div>
+        <div class="ambient-orb orb-3"></div>
+        <div class="ambient-orb orb-4"></div>
+    </div>
+
     <!-- TOP NAVIGATION -->
     <nav class="navbar">
         <div class="nav-container">
@@ -22,6 +31,11 @@
                 </div>
             </a>
             <div class="nav-actions">
+                <a href="/investments/" class="btn-nav-outline" title="Alternative Investments & Wealth Multipliers">
+                    <span style="color: var(--accent-emerald);">📈</span>
+                    <span>Investment Strategies</span>
+                </a>
+
                 <button type="button" class="btn-nav-outline" id="btnPrintReport">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="6 9 6 2 18 2 18 9"></polyline>
@@ -238,13 +252,25 @@
                 </div>
             </section>
 
-            <!-- WEALTH ADVISOR CLOSING VERDICT -->
-            <div style="text-align: center; margin: 40px auto 20px; max-width: 720px;">
-                <div style="font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 8px;">Closing Advisor Counsel</div>
-                <blockquote style="font-size: 17px; font-weight: 500; color: #e2e8f0; font-style: italic; line-height: 1.7;" id="advisorClosingVerdict">
-                    "Disciplined execution of incremental financial changes compounds into substantial lifetime freedom."
-                </blockquote>
-            </div>
+            <!-- CAPITAL GROWTH & INVESTMENT STRATEGY CALLOUT -->
+            <section class="card" style="margin-top: 30px; background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(15, 23, 42, 0.85) 100%); border: 1px solid rgba(16, 185, 129, 0.35);">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+                    <div>
+                        <div class="dossier-tag" style="color: #34d399;">Capital Growth & Profit Multiplier</div>
+                        <h3 style="font-size: 20px; font-weight: 800; color: #fff; margin: 4px 0 6px;">How to Deploy Your Saved Money & Surplus</h3>
+                        <p style="font-size: 14px; color: #94a3b8; max-width: 620px;">
+                            Explore tailored alternative investment avenues—including Index Compounding, REITs, Sovereign Gold Bonds, and Structured Fixed Income—to compound returns on your monthly surplus.
+                        </p>
+                    </div>
+                    <a href="/investments/" class="btn-primary" style="text-decoration: none; background: linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);">
+                        <span>Explore Alternative Investments</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </a>
+                </div>
+            </section>
 
             <!-- REPORT ACTIONS & PRINT BUTTONS -->
             <div class="report-footer-actions">

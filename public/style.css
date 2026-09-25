@@ -52,15 +52,98 @@ html {
 body {
     font-family: var(--font-sans);
     background-color: var(--bg-primary);
-    background-image:
-        radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.12) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 40%),
-        radial-gradient(circle at 50% 50%, rgba(6, 182, 212, 0.05) 0%, transparent 60%);
-    background-attachment: fixed;
     color: var(--text-primary);
     min-height: 100vh;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* ==========================================================================
+   DYNAMIC AMBIENT BACKGROUND SYSTEM
+   ========================================================================== */
+.ambient-background {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.ambient-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(85px);
+    opacity: 0.38;
+    will-change: transform;
+    animation: floatOrb 22s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+}
+
+.orb-1 {
+    width: 550px;
+    height: 550px;
+    top: -15%;
+    left: -10%;
+    background: radial-gradient(circle, #6366f1 0%, rgba(99, 102, 241, 0) 70%);
+    animation-duration: 24s;
+}
+
+.orb-2 {
+    width: 650px;
+    height: 650px;
+    bottom: -15%;
+    right: -10%;
+    background: radial-gradient(circle, #8b5cf6 0%, rgba(139, 92, 246, 0) 70%);
+    animation-duration: 28s;
+    animation-delay: -6s;
+}
+
+.orb-3 {
+    width: 480px;
+    height: 480px;
+    top: 35%;
+    right: 15%;
+    background: radial-gradient(circle, #06b6d4 0%, rgba(6, 182, 212, 0) 70%);
+    animation-duration: 20s;
+    animation-delay: -11s;
+    opacity: 0.28;
+}
+
+.orb-4 {
+    width: 450px;
+    height: 450px;
+    bottom: 20%;
+    left: 15%;
+    background: radial-gradient(circle, #ec4899 0%, rgba(236, 72, 153, 0) 70%);
+    animation-duration: 32s;
+    animation-delay: -16s;
+    opacity: 0.22;
+}
+
+.ambient-grid {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    background-size: 40px 40px;
+    background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+    mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%);
+    -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%);
+}
+
+@keyframes floatOrb {
+    0% {
+        transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    }
+    50% {
+        transform: translate3d(60px, 45px, 0) scale(1.12) rotate(45deg);
+    }
+    100% {
+        transform: translate3d(-40px, 70px, 0) scale(0.92) rotate(90deg);
+    }
 }
 
 /* ==========================================================================

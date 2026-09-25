@@ -127,6 +127,15 @@ app.get("/report", requireAuth, (req, res) => {
     res.redirect("/report.html");
 });
 
+// Dedicated Investments & Profit Multiplier Hub (Separate folder)
+app.get("/investments", requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "investments", "index.html"));
+});
+
+app.get("/investments/index.html", requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "investments", "index.html"));
+});
+
 // ===============================
 // AI GENERATION WITH FALLBACK
 // ===============================
@@ -418,6 +427,106 @@ app.get("/api/latest-analysis", requireAuthApi, (req, res) => {
         success: false,
         error: "No analysis has been generated yet for this session."
     });
+});
+
+// ===============================
+// INVESTMENT STRATEGY ENDPOINT (AI WEALTH DEPLOYMENT)
+// ===============================
+app.post("/api/investment-strategy", requireAuthApi, async (req, res) => {
+    try {
+        const body = req.body || {};
+        const monthlySurplus = Math.max(0, Number(body.monthlySurplus) || 0);
+        const currentSavings = Math.max(0, Number(body.currentSavings) || 0);
+        const riskTolerance = (body.riskTolerance || "Balanced").trim();
+        const horizonYears = Math.max(1, Number(body.horizonYears) || 5);
+        const goal = (body.goal || "Wealth Accumulation & Financial Freedom").trim();
+
+        const prompt = `
+You are a Senior Portfolio Manager and Alternative Investments Strategist.
+Formulate an actionable, high-yielding, and diversified wealth deployment strategy for this client profile:
+
+CLIENT PROFILE:
+- Available Monthly Inflow for Deployment: ₹${monthlySurplus.toLocaleString("en-IN")}
+- Lump-sum Capital Available in Reserves: ₹${currentSavings.toLocaleString("en-IN")}
+- Target Horizon: ${horizonYears} years
+- Risk Tolerance Profile: "${riskTolerance}"
+- Primary Ambition: "${goal}"
+
+ALLOCATION FRAMEWORK:
+Design a 4-Tier Strategic Capital Allocation covering both conventional assets and alternative high-yield avenues:
+- Tier 1: Emergency & Capital Preservation (Flexi-FDs, Arbitrage, Liquid Funds)
+- Tier 2: Core Compounding Wealth Engine (Broad Index, Flexi-Cap Equities, S&P 500)
+- Tier 3: Passive Yield & Inflation Hedging (Real Estate Investment Trusts - REITs, Sovereign Gold Bonds - SGBs)
+- Tier 4: Alternative High-Alpha Vehicles (Strategic Sectoral Growth, Small-Cap, Senior Secured Debt)
+
+OUTPUT SPECIFICATION:
+Return ONLY valid JSON matching this exact structure:
+{
+  "portfolioName": "Strategic Growth & Yield Blueprint",
+  "expectedCagr": "12.0% - 14.5%",
+  "riskTier": "${riskTolerance}",
+  "executiveRationale": "Strategic summary of how this deployment model maximizes profit while protecting against drawdowns.",
+  "tierAllocations": [
+    {
+      "tier": "Tier 1: Liquidity & Capital Preservation",
+      "percentage": 20,
+      "monthlyAmount": ${Math.round(monthlySurplus * 0.20)},
+      "lumpSumAmount": ${Math.round(currentSavings * 0.40)},
+      "recommendedInstruments": ["Liquid Mutual Funds", "High-Yield Flexi FDs", "Arbitrage Funds"],
+      "expectedYield": "6.8% - 7.4%",
+      "strategicRole": "Emergency shock-absorber and dry powder for market dips."
+    },
+    {
+      "tier": "Tier 2: Core Compounding Wealth Engine",
+      "percentage": 45,
+      "monthlyAmount": ${Math.round(monthlySurplus * 0.45)},
+      "lumpSumAmount": ${Math.round(currentSavings * 0.40)},
+      "recommendedInstruments": ["Nifty 50 Index Fund", "Nifty Next 50", "Parag Parikh Flexi Cap"],
+      "expectedYield": "12.0% - 14.0%",
+      "strategicRole": "Primary engine for beating inflation and multiplying net worth."
+    },
+    {
+      "tier": "Tier 3: Passive Yield & Inflation Hedging",
+      "percentage": 20,
+      "monthlyAmount": ${Math.round(monthlySurplus * 0.20)},
+      "lumpSumAmount": ${Math.round(currentSavings * 0.15)},
+      "recommendedInstruments": ["REITs (Embassy / Nexus Select)", "RBI Sovereign Gold Bonds (SGB)", "Infrastructure InvITs"],
+      "expectedYield": "7.5% - 9.5% + Capital Growth",
+      "strategicRole": "Generates quarterly dividend payouts and sovereign gold appreciation."
+    },
+    {
+      "tier": "Tier 4: Alternative High-Alpha Growth",
+      "percentage": 15,
+      "monthlyAmount": ${Math.round(monthlySurplus * 0.15)},
+      "lumpSumAmount": ${Math.round(currentSavings * 0.05)},
+      "recommendedInstruments": ["Small-Cap Quality Funds", "Thematic Clean Energy / Tech ETFs", "Senior Secured Debt Bonds"],
+      "expectedYield": "14.0% - 17.0%",
+      "strategicRole": "High-profit multiplier with controlled downside allocation."
+    }
+  ],
+  "profitMaximizationTactics": [
+    "Reinvest all quarterly REIT dividend distributions directly into your equity SIP for compounding velocity.",
+    "Implement an annual 10% Step-Up SIP whenever annual income increases.",
+    "Use Sovereign Gold Bonds to hedge rupee currency depreciation without physical locker expenses."
+  ],
+  "wealthMilestoneProjection": "Projected trajectory over ${horizonYears} years combining lump-sum deployment and recurring monthly allocations."
+}
+`;
+
+        const rawOutput = await generateAIAnalysis(prompt);
+        const cleanedText = rawOutput.replace(/```json\s*/i, "").replace(/```\s*$/i, "").trim();
+        const parsedStrategy = JSON.parse(cleanedText);
+
+        res.json({
+            success: true,
+            strategy: parsedStrategy
+        });
+    } catch (err) {
+        console.error("Investment strategy API error:", err);
+        res.status(500).json({
+            error: err.message || "Failed to generate investment strategy."
+        });
+    }
 });
 
 // ===============================
