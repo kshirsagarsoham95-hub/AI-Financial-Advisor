@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>AI Financial Advisor</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <h1>
+        AI Financial Advisor
+    </h1>
+
+
+    <p>
+        Understand your money. Plan your goals.
+        Get AI-powered financial insights.
+    </p>
+
+
+    <form id="financeForm">
+
+
+        <!-- INCOME -->
+
+        <h2>
+            Monthly Income
+        </h2>
+
+
+        <label for="income">
+            Income (₹)
+        </label>
+
+
+        <input
+            type="number"
+            id="income"
+            min="0"
+            placeholder="Example: 40000"
+            required
+        >
+
+
+        <!-- EXPENSES -->
+
+        <h2>
+            Monthly Expenses
+        </h2>
+
+
+        <label for="rent">
+            Rent (₹)
+        </label>
+
+        <input
+            type="number"
+            id="rent"
+            min="0"
+            placeholder="Enter rent"
+        >
+
+
+        <label for="food">
+            Food (₹)
+        </label>
+
+        <input
+            type="number"
+            id="food"
+            min="0"
+            placeholder="Enter food expenses"
+        >
+
+
+        <label for="transport">
+            Transport (₹)
+        </label>
+
+        <input
+            type="number"
+            id="transport"
+            min="0"
+            placeholder="Enter transport expenses"
+        >
+
+
+        <label for="bills">
+            Bills (₹)
+        </label>
+
+        <input
+            type="number"
+            id="bills"
+            min="0"
+            placeholder="Enter bills"
+        >
+
+
+        <label for="entertainment">
+            Entertainment (₹)
+        </label>
+
+        <input
+            type="number"
+            id="entertainment"
+            min="0"
+            placeholder="Enter entertainment expenses"
+        >
+
+
+        <label for="other">
+            Other Expenses (₹)
+        </label>
+
+        <input
+            type="number"
+            id="other"
+            min="0"
+            placeholder="Enter other expenses"
+        >
+
+
+        <!-- SAVINGS -->
+
+        <h2>
+            Savings
+        </h2>
+
+
+        <label for="savings">
+            Current Savings (₹)
+        </label>
+
+
+        <input
+            type="number"
+            id="savings"
+            min="0"
+            placeholder="Enter current savings"
+        >
+
+
+        <!-- GOAL -->
+
+        <h2>
+            Financial Goal
+        </h2>
+
+
+        <label for="goal">
+            What are you saving for?
+        </label>
+
+
+        <input
+            type="text"
+            id="goal"
+            placeholder="Example: Buy a laptop"
+            required
+        >
+
+
+        <label for="goalAmount">
+            Goal Amount (₹)
+        </label>
+
+
+        <input
+            type="number"
+            id="goalAmount"
+            min="0"
+            placeholder="Example: 60000"
+        >
+
+
+        <label for="targetMonths">
+            Target Time (months)
+        </label>
+
+
+        <input
+            type="number"
+            id="targetMonths"
+            min="1"
+            placeholder="Example: 6"
+        >
+
+
+        <button type="submit">
+            Get AI Financial Advice
+        </button>
+
+
+    </form>
+
+
+    <div id="result"></div>
+
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+
+</html>     
