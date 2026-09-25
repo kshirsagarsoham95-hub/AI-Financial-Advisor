@@ -1,163 +1,55 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>Login | AI Financial Advisor</title>
-
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In | FinAdvisor AI Wealth</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>₹</text></svg>">
 </head>
+<body class="login-body">
 
+    <div class="login-glass-card">
+        <!-- BRAND ICON -->
+        <div class="login-emblem">₹</div>
 
-<body class="login-page">
+        <!-- HEADINGS -->
+        <h1 class="login-heading">FinAdvisor AI</h1>
+        <p class="login-subhead">Autonomous Financial Intelligence & Advisory</p>
 
-
-    <div class="login-card">
-
-
-        <!-- LOGO -->
-
-        <div class="login-logo">
-            ₹
+        <!-- DEMO BADGE -->
+        <div class="demo-credentials-badge">
+            <strong>Interactive Demo Mode:</strong> Enter any email and password, or click below to fill demo credentials.
         </div>
 
-
-        <!-- HEADING -->
-
-        <h1>
-            Welcome Back
-        </h1>
-
-
-        <p class="login-subtitle">
-            Sign in to your AI Financial Advisor
-        </p>
-
-
-        <!-- LOGIN FORM -->
-
-        <form id="loginForm">
-
-
-            <!-- EMAIL -->
-
-            <div class="input-group">
-
-                <label for="email">
-                    Email
-                </label>
-
-                <input
-                    type="email"
-                    id="email"
-                    placeholder="you@example.com"
-                    required
-                >
-
+        <!-- FORM -->
+        <form id="loginForm" autocomplete="on">
+            <div class="input-stacked">
+                <label for="email">Account Email</label>
+                <div class="input-box">
+                    <input type="email" id="email" class="custom-input no-prefix" placeholder="client@wealth.com" required value="client@finadvisor.ai">
+                </div>
             </div>
 
-
-            <!-- PASSWORD -->
-
-            <div class="input-group">
-
-                <label for="password">
-                    Password
-                </label>
-
-                <input
-                    type="password"
-                    id="password"
-                    placeholder="Enter your password"
-                    required
-                >
-
+            <div class="input-stacked">
+                <label for="password">Password</label>
+                <div class="input-box">
+                    <input type="password" id="password" class="custom-input no-prefix" placeholder="••••••••" required value="password123">
+                </div>
             </div>
 
-
-            <!-- OPTIONS -->
-
-            <div class="login-options">
-
-
-                <label class="remember">
-
-                    <input
-                        type="checkbox"
-                        id="remember"
-                    >
-
-                    <span>
-                        Remember me
-                    </span>
-
-                </label>
-
-
-                <a href="#">
-                    Forgot password?
-                </a>
-
-
-            </div>
-
-
-            <!-- LOGIN BUTTON -->
-
-            <button type="submit">
-                Sign In
+            <button type="submit" class="btn-primary btn-full" id="btnLogin">
+                <span>Access Advisory Suite</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
             </button>
-
-
         </form>
 
-
-        <!-- MESSAGE -->
-
-        <p id="loginMessage"></p>
-
-
-        <!-- DIVIDER -->
-
-        <div class="divider">
-
-            <span>
-                OR
-            </span>
-
-        </div>
-
-
-        <!-- SIGN UP -->
-
-        <p class="signup-text">
-
-            Don't have an account?
-
-            <a href="#">
-                Create Account
-            </a>
-
-        </p>
-
-
+        <div class="auth-status-msg" id="loginMessage"></div>
     </div>
 
-
     <script src="login.js"></script>
-
 </body>
-
 </html>

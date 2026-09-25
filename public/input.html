@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Financial Advisor | Portfolio & Cashflow Assessment</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>₹</text></svg>">
+</head>
+<body>
+
+    <!-- TOP NAVIGATION -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/input.html" class="brand">
+                <div class="brand-icon">₹</div>
+                <div>
+                    <span class="brand-text">FinAdvisor</span>
+                    <span class="brand-badge">AI Wealth</span>
+                </div>
+            </a>
+            <div class="nav-actions">
+                <div class="user-profile" id="userBadge">
+                    <div class="user-avatar" id="userAvatar">U</div>
+                    <span id="userEmailDisplay">client@finadvisor.ai</span>
+                </div>
+                <a href="/logout" class="btn-nav-outline" title="End Session">
+                    <span>Logout</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN WRAPPER -->
+    <main class="main-layout">
+
+        <!-- HEADER -->
+        <header class="page-header">
+            <div class="page-tag">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+                Autonomous Wealth Diagnostics
+            </div>
+            <h1 class="page-title">
+                Personalized <span class="gradient-text">Financial Intelligence</span>
+            </h1>
+            <p class="page-subtitle">
+                Enter your monthly inflows, recurring allocations, and forward goals. Our AI wealth model will generate a rigorous, institutional-grade financial strategy.
+            </p>
+        </header>
+
+        <!-- LIVE DYNAMIC METRIC STRIP -->
+        <section class="live-strip" aria-label="Real-time financial summary">
+            <div class="live-card">
+                <div class="live-label">Monthly Inflow</div>
+                <div class="live-value" id="liveIncome">₹0</div>
+                <div class="live-status status-positive">Net Monthly Earnings</div>
+            </div>
+
+            <div class="live-card">
+                <div class="live-label">Total Outflows</div>
+                <div class="live-value" id="liveExpenses">₹0</div>
+                <div class="live-status" id="liveExpenseRatio">0% of income</div>
+            </div>
+
+            <div class="live-card">
+                <div class="live-label">Net Cashflow</div>
+                <div class="live-value" id="liveCashflow">₹0</div>
+                <div class="live-status status-positive" id="liveCashflowStatus">Balanced</div>
+            </div>
+
+            <div class="live-card">
+                <div class="live-label">Savings Potential</div>
+                <div class="live-value" id="liveSavingsRate">0.0%</div>
+                <div class="live-status" id="liveSavingsQuality">Needs vs Surplus</div>
+            </div>
+        </section>
+
+        <!-- INPUT FORM -->
+        <form id="advisorForm" autocomplete="off">
+            <div class="form-grid">
+
+                <!-- CARD 1: INFLOW & CAPITAL -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">💼</div>
+                        <div>
+                            <h2 class="card-title">Income & Reserves</h2>
+                            <p class="card-desc">Your monthly take-home earnings & existing liquid assets</p>
+                        </div>
+                    </div>
+
+                    <div class="input-field-group">
+                        <div class="input-wrapper">
+                            <label class="input-label" for="income">
+                                Monthly Take-Home (₹)
+                                <span class="hint">After tax</span>
+                            </label>
+                            <div class="input-box">
+                                <span class="input-prefix">₹</span>
+                                <input type="number" id="income" class="custom-input" placeholder="e.g. 75,000" min="1" step="100" required>
+                            </div>
+                        </div>
+
+                        <div class="input-wrapper">
+                            <label class="input-label" for="savings">
+                                Liquid Reserves / Savings (₹)
+                                <span class="hint">FD, Savings, Cash</span>
+                            </label>
+                            <div class="input-box">
+                                <span class="input-prefix">₹</span>
+                                <input type="number" id="savings" class="custom-input" placeholder="e.g. 1,20,000" min="0" step="500">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 2: ESSENTIAL LIVING EXPENSES (NEEDS) -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">🏠</div>
+                        <div>
+                            <h2 class="card-title">Fixed & Living Needs</h2>
+                            <p class="card-desc">Essential non-negotiable living costs (50% guideline)</p>
+                        </div>
+                    </div>
+
+                    <div class="input-field-group">
+                        <div class="input-wrapper">
+                            <label class="input-label" for="rent">Rent / Home Loan EMI (₹)</label>
+                            <div class="input-box">
+                                <span class="input-prefix">₹</span>
+                                <input type="number" id="rent" class="custom-input" placeholder="e.g. 20,000" min="0">
+                            </div>
+                        </div>
+
+                        <div class="input-wrapper">
+                            <label class="input-label" for="food">Groceries & Daily Food (₹)</label>
+                            <div class="input-box">
+                                <span class="input-prefix">₹</span>
+                                <input type="number" id="food" class="custom-input" placeholder="e.g. 10,000" min="0">
+                            </div>
+                        </div>
+
+                        <div class="input-wrapper">
+                            <label class="input-label" for="transport">Commute & Fuel (₹)</label>
+                            <div class="input-box">
+                                <span class="input-prefix">₹</span>
+                                <input type="number" id="transport" class="custom-input" placeholder="e.g. 4,500" min="0">
+                            </div>
+                        </div>
+
+                        <div class="input-wrapper">
+                            <label class="input-label" for="bills">Utilities & Bills (₹)</label>
+                            <div class="input-box">
+                                <span class="input-prefix">₹</span>
+                                <input type="number" id="bills" class="custom-input" placeholder="e.g. 3,500" min="0">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 3: DISCRETIONARY & LIFESTYLE (WANTS) -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">☕</div>
+                        <div>
+                            <h2 class="card-title">Discretionary Outflows</h2>
+                            <p class="card-desc">Lifestyle, dining out, subscriptions & miscellaneous</p>
+                        </div>
+                    </div>
+
+                    <div class="input-field-group">
+                        <div class="input-wrapper">
+                            <label class="input-label" for="entertainment">Leisure, Dining & Subscriptions (₹)</label>
+                            <div class="input-box">
+                                <span class="input-prefix">₹</span>
+                                <input type="number" id="entertainment" class="custom-input" placeholder="e.g. 6,000" min="0">
+                            </div>
+                        </div>
+
+                        <div class="input-wrapper">
+                            <label class="input-label" for="other">Other Unplanned Expenses (₹)</label>
+                            <div class="input-box">
+                                <span class="input-prefix">₹</span>
+                                <input type="number" id="other" class="custom-input" placeholder="e.g. 3,000" min="0">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 4: STRATEGIC TARGET OBJECTIVE -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">🎯</div>
+                        <div>
+                            <h2 class="card-title">Target Objective</h2>
+                            <p class="card-desc">What milestone are you aiming to achieve?</p>
+                        </div>
+                    </div>
+
+                    <div class="input-field-group single-col">
+                        <div class="input-wrapper">
+                            <label class="input-label" for="goal">Financial Milestone Purpose</label>
+                            <div class="input-box">
+                                <input type="text" id="goal" class="custom-input no-prefix" placeholder="e.g. Emergency Fund, Higher Education, Down Payment for Car" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input-field-group">
+                        <div class="input-wrapper">
+                            <label class="input-label" for="goalAmount">Target Goal Amount (₹)</label>
+                            <div class="input-box">
+                                <span class="input-prefix">₹</span>
+                                <input type="number" id="goalAmount" class="custom-input" placeholder="e.g. 2,00,000" min="0" required>
+                            </div>
+                        </div>
+
+                        <div class="input-wrapper">
+                            <label class="input-label" for="targetMonths">Time Horizon (Months)</label>
+                            <div class="input-box">
+                                <input type="number" id="targetMonths" class="custom-input no-prefix" placeholder="e.g. 10" min="1" max="120" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ACTION BAR -->
+            <div class="form-actions-bar">
+                <button type="button" class="btn-secondary" id="btnDemoProfile">
+                    <span style="margin-right: 6px;">⚡</span> Load Sample Profile
+                </button>
+
+                <button type="submit" class="btn-primary" id="btnSubmit">
+                    <span>Generate AI Financial Advisory Report</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </form>
+
+    </main>
+
+    <!-- LOADING MODAL OVERLAY -->
+    <div class="modal-overlay" id="loadingModal">
+        <div class="loading-card">
+            <div class="loading-spinner-ring"></div>
+            <h3 class="loading-title">Analyzing Portfolio Health</h3>
+            <p class="loading-step-msg" id="loadingStatusText">Connecting with Gemini AI Wealth Advisor...</p>
+
+            <div class="loading-steps-list">
+                <div class="loading-step-item active" id="step1">
+                    <div class="step-dot"></div>
+                    <span>Auditing cash inflows and expense ratios</span>
+                </div>
+                <div class="loading-step-item" id="step2">
+                    <div class="step-dot"></div>
+                    <span>Benchmarking against 50/30/20 financial standards</span>
+                </div>
+                <div class="loading-step-item" id="step3">
+                    <div class="step-dot"></div>
+                    <span>Testing goal feasibility and calculating runway</span>
+                </div>
+                <div class="loading-step-item" id="step4">
+                    <div class="step-dot"></div>
+                    <span>Synthesizing prioritized action plan & recommendations</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="input.js"></script>
+</body>
+</html>
