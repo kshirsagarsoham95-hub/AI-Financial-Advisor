@@ -6,8 +6,9 @@
     <title>Investment Strategies & Profit Multiplier | FinAdvisor AI</title>
     <link rel="stylesheet" href="investments.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>₹</text></svg>">
-    <!-- Chart.js for compounding visualization -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chart.js (Local bundle with CDN fallback) -->
+    <script src="../chart.min.js"></script>
+    <script>if (typeof Chart === "undefined") { document.write('<script src="https://cdn.jsdelivr.net/npm/chart.js"><\/script>'); }</script>
 </head>
 <body>
 

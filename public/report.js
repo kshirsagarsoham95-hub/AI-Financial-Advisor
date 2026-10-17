@@ -220,64 +220,103 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     // ==========================================================================
-    // DATA VISUALIZATION: CHARTS VIA CHART.JS
+    // MONTHLY OUTFLOW DISTRIBUTION BREAKDOWN & DATA VISUALIZATION
     // ==========================================================================
+    const outflowItems = [
+        { label: "Rent / Housing", value: Math.max(0, Number(metrics.rent) || 0), color: "#6366f1" },
+        { label: "Groceries & Food", value: Math.max(0, Number(metrics.food) || 0), color: "#38bdf8" },
+        { label: "Transit & Commute", value: Math.max(0, Number(metrics.transport) || 0), color: "#a855f7" },
+        { label: "Utilities & Bills", value: Math.max(0, Number(metrics.bills) || 0), color: "#f59e0b" },
+        { label: "Leisure & Dining", value: Math.max(0, Number(metrics.entertainment) || 0), color: "#f43f5e" },
+        { label: "Other Expenses", value: Math.max(0, Number(metrics.other) || 0), color: "#64748b" }
+    ];
+
+    if (netCashflow > 0) {
+        outflowItems.push({ label: "Unallocated Monthly Surplus", value: netCashflow, color: "#10b981" });
+    }
+
+    const activeOutflowItems = outflowItems.filter(item => item.value > 0);
+    const totalOutflowBase = activeOutflowItems.reduce((acc, cur) => acc + cur.value, 0) || Math.max(1, Number(metrics.income) || 0);
+
+    // 1. Render Itemized Outflow Breakdown List (Always rendered & accessible)
+    const distList = document.getElementById("outflowDistributionList");
+    if (distList) {
+        distList.innerHTML = "";
+        if (activeOutflowItems.length > 0) {
+            activeOutflowItems.forEach(item => {
+                const pct = ((item.value / totalOutflowBase) * 100).toFixed(1);
+                const row = document.createElement("div");
+                row.className = "outflow-dist-item";
+                row.innerHTML = `
+                    <div class="outflow-dist-header">
+                        <span class="outflow-dist-label">
+                            <span class="outflow-dist-dot" style="background: ${item.color};"></span>
+                            <span>${item.label}</span>
+                        </span>
+                        <span class="outflow-dist-values">${formatRupee(item.value)} &bull; ${pct}%</span>
+                    </div>
+                    <div class="outflow-dist-bar-bg">
+                        <div class="outflow-dist-bar-fill" style="width: ${pct}%; background: ${item.color};"></div>
+                    </div>
+                `;
+                distList.appendChild(row);
+            });
+        } else {
+            distList.innerHTML = `<div style="font-size: 13px; color: var(--text-muted); text-align: center; padding: 12px;">No monthly outflows recorded.</div>`;
+        }
+    }
+
+    // 2. Render Donut Chart via Chart.js
     if (typeof Chart !== "undefined") {
         try {
-            // Chart 1: Donut Chart of Outflows
-            const donutCtx = document.getElementById("outflowDonutChart").getContext("2d");
-            
-            const expenseLabels = [];
-            const expenseValues = [];
-            const expenseColors = [];
+            const donutCanvas = document.getElementById("outflowDonutChart");
+            if (donutCanvas && activeOutflowItems.length > 0) {
+                const donutCtx = donutCanvas.getContext("2d");
 
-            if (metrics.rent > 0) { expenseLabels.push("Rent / Housing"); expenseValues.push(metrics.rent); expenseColors.push("#6366f1"); }
-            if (metrics.food > 0) { expenseLabels.push("Groceries & Food"); expenseValues.push(metrics.food); expenseColors.push("#38bdf8"); }
-            if (metrics.transport > 0) { expenseLabels.push("Commute"); expenseValues.push(metrics.transport); expenseColors.push("#a855f7"); }
-            if (metrics.bills > 0) { expenseLabels.push("Bills & Utilities"); expenseValues.push(metrics.bills); expenseColors.push("#f59e0b"); }
-            if (metrics.entertainment > 0) { expenseLabels.push("Leisure & Dining"); expenseValues.push(metrics.entertainment); expenseColors.push("#f43f5e"); }
-            if (metrics.other > 0) { expenseLabels.push("Other"); expenseValues.push(metrics.other); expenseColors.push("#64748b"); }
-            if (netCashflow > 0) { expenseLabels.push("Unallocated Surplus"); expenseValues.push(netCashflow); expenseColors.push("#10b981"); }
-
-            new Chart(donutCtx, {
-                type: "doughnut",
-                data: {
-                    labels: expenseLabels,
-                    datasets: [{
-                        data: expenseValues,
-                        backgroundColor: expenseColors,
-                        borderWidth: 2,
-                        borderColor: "#0d1322",
-                        hoverOffset: 6
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: "68%",
-                    plugins: {
-                        legend: {
-                            position: "bottom",
-                            labels: {
-                                color: "#94a3b8",
-                                font: { size: 11, family: "'Plus Jakarta Sans', sans-serif" },
-                                padding: 12,
-                                boxWidth: 12
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const val = context.raw || 0;
-                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                    const pct = total > 0 ? ((val / total) * 100).toFixed(1) : 0;
-                                    return ` ${context.label}: ₹${val.toLocaleString("en-IN")} (${pct}%)`;
+                new Chart(donutCtx, {
+                    type: "doughnut",
+                    data: {
+                        labels: activeOutflowItems.map(i => i.label),
+                        datasets: [{
+                            data: activeOutflowItems.map(i => i.value),
+                            backgroundColor: activeOutflowItems.map(i => i.color),
+                            borderWidth: 2,
+                            borderColor: "#0d1322",
+                            hoverOffset: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: "68%",
+                        plugins: {
+                            legend: {
+                                position: "bottom",
+                                labels: {
+                                    color: "#94a3b8",
+                                    font: { size: 11, family: "'Plus Jakarta Sans', sans-serif" },
+                                    padding: 12,
+                                    boxWidth: 12
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        const val = context.raw || 0;
+                                        const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                        const pct = total > 0 ? ((val / total) * 100).toFixed(1) : 0;
+                                        return ` ${context.label}: ₹${val.toLocaleString("en-IN")} (${pct}%)`;
+                                    }
                                 }
                             }
                         }
                     }
-                }
-            });
+                });
+            }
+        } catch (donutErr) {
+            console.error("Donut chart error:", donutErr);
+        }
+    }
 
             // Chart 2: 50 / 30 / 20 Rule Compliance Bar Chart
             const barCtx = document.getElementById("benchmarkBarChart").getContext("2d");
