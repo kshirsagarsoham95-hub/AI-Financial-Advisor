@@ -266,7 +266,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     }
 
-    // 2. Render Donut Chart via Chart.js
+    // 2. Render Donut Chart & Benchmark Bar Chart via Chart.js
     if (typeof Chart !== "undefined") {
         try {
             const donutCanvas = document.getElementById("outflowDonutChart");
@@ -316,81 +316,83 @@ document.addEventListener("DOMContentLoaded", async () => {
         } catch (donutErr) {
             console.error("Donut chart error:", donutErr);
         }
-    }
 
+        try {
             // Chart 2: 50 / 30 / 20 Rule Compliance Bar Chart
-            const barCtx = document.getElementById("benchmarkBarChart").getContext("2d");
+            const barCanvas = document.getElementById("benchmarkBarChart");
+            if (barCanvas) {
+                const barCtx = barCanvas.getContext("2d");
 
-            const actualNeedsPct = metrics.needsPct || 0;
-            const actualWantsPct = metrics.wantsPct || 0;
-            const actualSavingsPct = metrics.surplusPct || 0;
+                const actualNeedsPct = metrics.needsPct || 0;
+                const actualWantsPct = metrics.wantsPct || 0;
+                const actualSavingsPct = metrics.surplusPct || 0;
 
-            new Chart(barCtx, {
-                type: "bar",
-                data: {
-                    labels: ["Needs (Living)", "Wants (Lifestyle)", "Savings (Capital)"],
-                    datasets: [
-                        {
-                            label: "Actual Client Allocation (%)",
-                            data: [actualNeedsPct, actualWantsPct, actualSavingsPct],
-                            backgroundColor: ["rgba(99, 102, 241, 0.85)", "rgba(244, 63, 94, 0.85)", "rgba(16, 185, 129, 0.85)"],
-                            borderRadius: 6
-                        },
-                        {
-                            label: "50/30/20 Ideal Benchmark (%)",
-                            data: [50, 30, 20],
-                            backgroundColor: "rgba(148, 163, 184, 0.25)",
-                            borderColor: "rgba(148, 163, 184, 0.5)",
-                            borderWidth: 1,
-                            borderRadius: 6
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: Math.max(100, actualNeedsPct + 10),
-                            ticks: {
-                                callback: val => val + "%",
-                                color: "#64748b",
-                                font: { size: 11 }
+                new Chart(barCtx, {
+                    type: "bar",
+                    data: {
+                        labels: ["Needs (Living)", "Wants (Lifestyle)", "Savings (Capital)"],
+                        datasets: [
+                            {
+                                label: "Actual Client Allocation (%)",
+                                data: [actualNeedsPct, actualWantsPct, actualSavingsPct],
+                                backgroundColor: ["rgba(99, 102, 241, 0.85)", "rgba(244, 63, 94, 0.85)", "rgba(16, 185, 129, 0.85)"],
+                                borderRadius: 6
                             },
-                            grid: { color: "rgba(255, 255, 255, 0.05)" }
-                        },
-                        x: {
-                            ticks: {
-                                color: "#94a3b8",
-                                font: { size: 11, weight: "600" }
-                            },
-                            grid: { display: false }
-                        }
+                            {
+                                label: "50/30/20 Ideal Benchmark (%)",
+                                data: [50, 30, 20],
+                                backgroundColor: "rgba(148, 163, 184, 0.25)",
+                                borderColor: "rgba(148, 163, 184, 0.5)",
+                                borderWidth: 1,
+                                borderRadius: 6
+                            }
+                        ]
                     },
-                    plugins: {
-                        legend: {
-                            position: "bottom",
-                            labels: {
-                                color: "#94a3b8",
-                                font: { size: 11 },
-                                boxWidth: 12,
-                                padding: 12
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: Math.max(100, actualNeedsPct + 10),
+                                ticks: {
+                                    callback: val => val + "%",
+                                    color: "#64748b",
+                                    font: { size: 11 }
+                                },
+                                grid: { color: "rgba(255, 255, 255, 0.05)" }
+                            },
+                            x: {
+                                ticks: {
+                                    color: "#94a3b8",
+                                    font: { size: 11, weight: "600" }
+                                },
+                                grid: { display: false }
                             }
                         },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return ` ${context.dataset.label}: ${context.raw}%`;
+                        plugins: {
+                            legend: {
+                                position: "bottom",
+                                labels: {
+                                    color: "#94a3b8",
+                                    font: { size: 11 },
+                                    boxWidth: 12,
+                                    padding: 12
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return ` ${context.dataset.label}: ${context.raw}%`;
+                                    }
                                 }
                             }
                         }
                     }
-                }
-            });
-
+                });
+            }
         } catch (chartErr) {
-            console.error("Chart generation error:", chartErr);
+            console.error("Benchmark chart generation error:", chartErr);
         }
     }
 });
