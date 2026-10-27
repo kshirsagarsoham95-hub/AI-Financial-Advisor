@@ -150,12 +150,15 @@
                 </div>
             </section>
 
-            <!-- ANALYTICS ROW: CHARTS -->
+            <!-- ANALYTICS ROW: CHARTS & DISPLAY UNITS -->
             <section class="analytics-grid">
                 <!-- CHART 1: MONTHLY OUTFLOW BREAKDOWN -->
                 <div class="chart-card">
                     <div class="chart-card-header">
-                        <h3 class="chart-card-title">Monthly Outflow Distribution</h3>
+                        <div>
+                            <h3 class="chart-card-title">Monthly Outflow Distribution</h3>
+                            <div class="chart-card-subtitle" id="outflowTotalSubtitle" style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Categorical expenditure vs surplus</div>
+                        </div>
                         <span class="brand-badge">Categorical</span>
                     </div>
                     <div class="chart-wrapper">
@@ -170,11 +173,18 @@
                 <!-- CHART 2: 50/30/20 BENCHMARK -->
                 <div class="chart-card">
                     <div class="chart-card-header">
-                        <h3 class="chart-card-title">50 / 30 / 20 Budget Compliance</h3>
+                        <div>
+                            <h3 class="chart-card-title">50 / 30 / 20 Budget Compliance</h3>
+                            <div class="chart-card-subtitle" id="benchmarkSubtitle" style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Standard financial health benchmark</div>
+                        </div>
                         <span class="brand-badge">Actual vs Ideal</span>
                     </div>
                     <div class="chart-wrapper">
                         <canvas id="benchmarkBarChart"></canvas>
+                    </div>
+                    <!-- Itemized 50/30/20 Benchmark Comparison Units (Always rendered) -->
+                    <div id="benchmarkDistributionList" class="outflow-dist-list">
+                        <!-- Populated by report.js -->
                     </div>
                 </div>
             </section>
@@ -256,6 +266,14 @@
                     </div>
                 </div>
             </section>
+
+            <!-- WEALTH ADVISOR CLOSING VERDICT -->
+            <div class="card" style="text-align: center; margin-top: 30px; padding: 24px 30px; background: rgba(13, 19, 34, 0.75); border: 1px solid var(--border-subtle);">
+                <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent-cyan); font-weight: 700; margin-bottom: 8px;">Senior Wealth Advisor Closing Counsel</div>
+                <blockquote style="font-size: 15.5px; font-weight: 500; color: #e2e8f0; font-style: italic; line-height: 1.7; margin: 0; max-width: 820px; margin-inline: auto;" id="advisorClosingVerdict">
+                    "Disciplined execution of incremental financial changes compounds into substantial lifetime freedom."
+                </blockquote>
+            </div>
 
             <!-- CAPITAL GROWTH & INVESTMENT STRATEGY CALLOUT -->
             <section class="card" style="margin-top: 30px; background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(15, 23, 42, 0.85) 100%); border: 1px solid rgba(16, 185, 129, 0.35);">

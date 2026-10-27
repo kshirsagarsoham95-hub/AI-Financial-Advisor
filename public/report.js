@@ -215,13 +215,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Wealth Advisor Verdict
     const advisorClosingVerdict = document.getElementById("advisorClosingVerdict");
-    if (analysis.wealthAdvisorVerdict) {
+    if (advisorClosingVerdict && analysis.wealthAdvisorVerdict) {
         advisorClosingVerdict.textContent = `"${analysis.wealthAdvisorVerdict}"`;
     }
 
     // ==========================================================================
-    // MONTHLY OUTFLOW DISTRIBUTION BREAKDOWN & DATA VISUALIZATION
+    // COLUMN 1: MONTHLY OUTFLOW DISTRIBUTION BREAKDOWN & DONUT VISUALIZATION
     // ==========================================================================
+    const incomeTotal = Math.max(0, Number(metrics.income) || 0);
     const outflowItems = [
         { label: "Rent / Housing", value: Math.max(0, Number(metrics.rent) || 0), color: "#6366f1" },
         { label: "Groceries & Food", value: Math.max(0, Number(metrics.food) || 0), color: "#38bdf8" },
@@ -236,7 +237,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     const activeOutflowItems = outflowItems.filter(item => item.value > 0);
-    const totalOutflowBase = activeOutflowItems.reduce((acc, cur) => acc + cur.value, 0) || Math.max(1, Number(metrics.income) || 0);
+    const totalOutflowBase = activeOutflowItems.reduce((acc, cur) => acc + cur.value, 0) || Math.max(1, incomeTotal);
+
+    // Update Subtitle with Total Inflow / Outflow
+    const outflowTotalSubtitle = document.getElementById("outflowTotalSubtitle");
+    if (outflowTotalSubtitle) {
+        outflowTotalSubtitle.textContent = `Total Monthly Base: ${formatRupee(totalOutflowBase)} (Inflow: ${formatRupee(incomeTotal)})`;
+    }
 
     // 1. Render Itemized Outflow Breakdown List (Always rendered & accessible)
     const distList = document.getElementById("outflowDistributionList");
@@ -253,7 +260,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                             <span class="outflow-dist-dot" style="background: ${item.color};"></span>
                             <span>${item.label}</span>
                         </span>
-                        <span class="outflow-dist-values">${formatRupee(item.value)} &bull; ${pct}%</span>
+                        <span class="outflow-dist-values"><strong>${formatRupee(item.value)}</strong> &bull; <span style="color: ${item.color}; font-weight: 600;">${pct}%</span></span>
                     </div>
                     <div class="outflow-dist-bar-bg">
                         <div class="outflow-dist-bar-fill" style="width: ${pct}%; background: ${item.color};"></div>
@@ -266,13 +273,100 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     }
 
-    // 2. Render Donut Chart & Benchmark Bar Chart via Chart.js
+    // ==========================================================================
+    // COLUMN 2: 50 / 30 / 20 BUDGET COMPLIANCE UNITS & BENCHMARK VISUALIZATION
+    // ==========================================================================
+    const actualNeedsPct = metrics.needsPct !== undefined ? metrics.needsPct : 0;
+    const actualWantsPct = metrics.wantsPct !== undefined ? metrics.wantsPct : 0;
+    const actualSavingsPct = metrics.surplusPct !== undefined ? metrics.surplusPct : 0;
+
+    const actualNeedsVal = metrics.needsExpenses !== undefined ? metrics.needsExpenses : ((actualNeedsPct / 100) * incomeTotal);
+    const actualWantsVal = metrics.wantsExpenses !== undefined ? metrics.wantsExpenses : ((actualWantsPct / 100) * incomeTotal);
+    const actualSavingsVal = netCashflow >= 0 ? netCashflow : 0;
+
+    const benchmarkSubtitle = document.getElementById("benchmarkSubtitle");
+    if (benchmarkSubtitle) {
+        benchmarkSubtitle.textContent = `Needs 50% (${formatRupee(incomeTotal * 0.5)}) • Wants 30% (${formatRupee(incomeTotal * 0.3)}) • Savings 20% (${formatRupee(incomeTotal * 0.2)})`;
+    }
+
+    const benchmarkItems = [
+        {
+            label: "Needs (Living & Essentials)",
+            actualPct: actualNeedsPct,
+            idealPct: 50,
+            actualVal: actualNeedsVal,
+            idealVal: incomeTotal * 0.5,
+            color: "#6366f1",
+            status: actualNeedsPct <= 50 ? "Within Target (≤50%)" : "Over Benchmark (>50%)",
+            isGood: actualNeedsPct <= 50
+        },
+        {
+            label: "Wants (Lifestyle & Leisure)",
+            actualPct: actualWantsPct,
+            idealPct: 30,
+            actualVal: actualWantsVal,
+            idealVal: incomeTotal * 0.3,
+            color: "#f43f5e",
+            status: actualWantsPct <= 30 ? "Controlled (≤30%)" : "High Discretionary (>30%)",
+            isGood: actualWantsPct <= 30
+        },
+        {
+            label: "Savings (Capital Growth)",
+            actualPct: actualSavingsPct,
+            idealPct: 20,
+            actualVal: actualSavingsVal,
+            idealVal: incomeTotal * 0.2,
+            color: "#10b981",
+            status: actualSavingsPct >= 20 ? "Target Met (≥20%)" : "Under Target (<20%)",
+            isGood: actualSavingsPct >= 20
+        }
+    ];
+
+    const benchmarkList = document.getElementById("benchmarkDistributionList");
+    if (benchmarkList) {
+        benchmarkList.innerHTML = "";
+        benchmarkItems.forEach(item => {
+            const statusColor = item.isGood ? "#34d399" : "#fb7185";
+            const row = document.createElement("div");
+            row.className = "outflow-dist-item";
+            row.innerHTML = `
+                <div class="outflow-dist-header">
+                    <span class="outflow-dist-label">
+                        <span class="outflow-dist-dot" style="background: ${item.color};"></span>
+                        <span>${item.label}</span>
+                    </span>
+                    <span class="outflow-dist-values">
+                        <strong>${formatRupee(item.actualVal)}</strong> (${item.actualPct}%)
+                        <span style="color: var(--text-muted); font-size: 11px;">vs Ideal ${item.idealPct}%</span>
+                    </span>
+                </div>
+                <div class="outflow-dist-bar-bg" style="position: relative;">
+                    <div class="outflow-dist-bar-fill" style="width: ${Math.min(100, Math.max(0, item.actualPct))}%; background: ${item.color};"></div>
+                    <div style="position: absolute; left: ${item.idealPct}%; top: -2px; bottom: -2px; width: 2px; background: #ffffff; opacity: 0.75; border-radius: 1px;" title="Ideal Benchmark: ${item.idealPct}%"></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; margin-top: -2px;">
+                    <span style="color: ${statusColor}; font-weight: 600;">${item.status}</span>
+                    <span style="color: var(--text-muted);">Ideal target: ${formatRupee(item.idealVal)}/mo</span>
+                </div>
+            `;
+            benchmarkList.appendChild(row);
+        });
+    }
+
+    // ==========================================================================
+    // CHART.JS ENGINE FOR BOTH COLUMNS
+    // ==========================================================================
     if (typeof Chart !== "undefined") {
         try {
             const donutCanvas = document.getElementById("outflowDonutChart");
             if (donutCanvas && activeOutflowItems.length > 0) {
-                const donutCtx = donutCanvas.getContext("2d");
+                // Destroy previous instance to avoid canvas reuse errors
+                if (typeof Chart.getChart === "function") {
+                    const existingDonut = Chart.getChart(donutCanvas);
+                    if (existingDonut) existingDonut.destroy();
+                }
 
+                const donutCtx = donutCanvas.getContext("2d");
                 new Chart(donutCtx, {
                     type: "doughnut",
                     data: {
@@ -305,7 +399,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                                         const val = context.raw || 0;
                                         const total = context.dataset.data.reduce((a, b) => a + b, 0);
                                         const pct = total > 0 ? ((val / total) * 100).toFixed(1) : 0;
-                                        return ` ${context.label}: ₹${val.toLocaleString("en-IN")} (${pct}%)`;
+                                        return ` ${context.label}: ${formatRupee(val)} (${pct}%)`;
                                     }
                                 }
                             }
@@ -318,15 +412,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
         try {
-            // Chart 2: 50 / 30 / 20 Rule Compliance Bar Chart
             const barCanvas = document.getElementById("benchmarkBarChart");
             if (barCanvas) {
+                // Destroy previous instance to avoid canvas reuse errors
+                if (typeof Chart.getChart === "function") {
+                    const existingBar = Chart.getChart(barCanvas);
+                    if (existingBar) existingBar.destroy();
+                }
+
                 const barCtx = barCanvas.getContext("2d");
-
-                const actualNeedsPct = metrics.needsPct || 0;
-                const actualWantsPct = metrics.wantsPct || 0;
-                const actualSavingsPct = metrics.surplusPct || 0;
-
                 new Chart(barCtx, {
                     type: "bar",
                     data: {
@@ -354,7 +448,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                         scales: {
                             y: {
                                 beginAtZero: true,
-                                max: Math.max(100, actualNeedsPct + 10),
+                                max: Math.max(100, Math.ceil((Math.max(actualNeedsPct, actualWantsPct, actualSavingsPct) + 15) / 10) * 10),
                                 ticks: {
                                     callback: val => val + "%",
                                     color: "#64748b",
@@ -383,7 +477,12 @@ document.addEventListener("DOMContentLoaded", async () => {
                             tooltip: {
                                 callbacks: {
                                     label: function(context) {
-                                        return ` ${context.dataset.label}: ${context.raw}%`;
+                                        const pct = context.raw || 0;
+                                        const isActual = context.datasetIndex === 0;
+                                        const rupeeVal = isActual ?
+                                            (context.dataIndex === 0 ? actualNeedsVal : context.dataIndex === 1 ? actualWantsVal : actualSavingsVal) :
+                                            (incomeTotal * (pct / 100));
+                                        return ` ${context.dataset.label}: ${pct}% (${formatRupee(rupeeVal)}/mo)`;
                                     }
                                 }
                             }
