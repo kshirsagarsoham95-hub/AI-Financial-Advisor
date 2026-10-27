@@ -39,6 +39,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Load active session user info
     try {
         const authRes = await fetch("/api/me");
+        if (authRes.status === 401) {
+            window.location.href = "/";
+            return;
+        }
         if (authRes.ok) {
             const authData = await authRes.json();
             if (authData.email) {
@@ -200,14 +204,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         let currentStepIndex = 0;
         const stepInterval = setInterval(() => {
-            currentStepIndex++;
-            if (currentStepIndex < steps.length) {
-                statusText.textContent = steps[currentStepIndex].text;
-                const prevStepEl = document.getElementById(steps[currentStepIndex - 1].stepId);
-                const currStepEl = document.getElementById(steps[currentStepIndex].stepId);
-                if (prevStepEl) prevStepEl.classList.remove("active");
-                if (currStepEl) currStepEl.classList.add("active");
-            }
+            currentStepIndex = (currentStepIndex + 1) % steps.length;
+            statusText.textContent = steps[currentStepIndex].text;
+            steps.forEach((s, idx) => {
+                const el = document.getElementById(s.stepId);
+                if (el) {
+                    if (idx === currentStepIndex) el.classList.add("active");
+                    else el.classList.remove("active");
+                }
+            });
         }, 1200);
 
         try {
@@ -220,6 +225,14 @@ document.addEventListener("DOMContentLoaded", async () => {
             });
 
             clearInterval(stepInterval);
+
+            if (response.status === 401) {
+                statusText.textContent = "Session expired. Redirecting to sign in...";
+                setTimeout(() => {
+                    window.location.href = "/";
+                }, 1000);
+                return;
+            }
 
             const result = await response.json();
 
@@ -234,13 +247,13 @@ document.addEventListener("DOMContentLoaded", async () => {
             statusText.textContent = "Report ready! Launching Executive Dossier...";
             setTimeout(() => {
                 window.location.href = "/report.html";
-            }, 600);
+            }, 500);
 
         } catch (error) {
             clearInterval(stepInterval);
             modal.classList.remove("active");
             btnSubmit.disabled = false;
-            alert("Error generating report: " + error.message);
+            alert("Analysis Notice: " + error.message);
             console.error("Submission failed:", error);
         }
     });
