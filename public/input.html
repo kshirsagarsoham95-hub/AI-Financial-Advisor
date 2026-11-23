@@ -96,50 +96,60 @@
             </p>
         </header>
 
-        <!-- LIVE DYNAMIC METRIC STRIP -->
-        <section class="live-strip" aria-label="Real-time financial summary">
-            <div class="live-card">
-                <div class="live-label">Monthly Inflow</div>
-                <div class="live-value" id="liveIncome">₹0</div>
-                <div class="live-status status-positive">Net Monthly Earnings</div>
+        <!-- SECTION 01: LIVE DYNAMIC METRIC STRIP -->
+        <section class="app-section" id="sectionTelemetry" aria-label="Real-time financial summary">
+            <div class="app-section-header">
+                <div class="app-section-title-group">
+                    <span class="app-section-pill">SECTION 01</span>
+                    <h2 class="app-section-title">Live Cashflow Telemetry</h2>
+                </div>
+                <span class="app-section-tag">⚡ Real-Time Solvency Audit</span>
             </div>
+            <div class="live-strip">
+                <div class="live-card">
+                    <div class="live-label">Monthly Inflow</div>
+                    <div class="live-value" id="liveIncome">₹0</div>
+                    <div class="live-status status-positive">Net Monthly Earnings</div>
+                </div>
 
-            <div class="live-card">
-                <div class="live-label">Total Outflows</div>
-                <div class="live-value" id="liveExpenses">₹0</div>
-                <div class="live-status" id="liveExpenseRatio">0% of income</div>
-            </div>
+                <div class="live-card">
+                    <div class="live-label">Total Outflows</div>
+                    <div class="live-value" id="liveExpenses">₹0</div>
+                    <div class="live-status" id="liveExpenseRatio">0% of income</div>
+                </div>
 
-            <div class="live-card">
-                <div class="live-label">Net Cashflow</div>
-                <div class="live-value" id="liveCashflow">₹0</div>
-                <div class="live-status status-positive" id="liveCashflowStatus">Balanced</div>
-            </div>
+                <div class="live-card">
+                    <div class="live-label">Net Cashflow</div>
+                    <div class="live-value" id="liveCashflow">₹0</div>
+                    <div class="live-status status-positive" id="liveCashflowStatus">Balanced</div>
+                </div>
 
-            <div class="live-card">
-                <div class="live-label">Savings Potential</div>
-                <div class="live-value" id="liveSavingsRate">0.0%</div>
-                <div class="live-status" id="liveSavingsQuality">Needs vs Surplus</div>
+                <div class="live-card">
+                    <div class="live-label">Savings Potential</div>
+                    <div class="live-value" id="liveSavingsRate">0.0%</div>
+                    <div class="live-status" id="liveSavingsQuality">Needs vs Surplus</div>
+                </div>
             </div>
         </section>
 
         <!-- INPUT FORM -->
         <form id="advisorForm" autocomplete="off">
-            <div class="form-grid">
 
-                <!-- SECTION DIVIDER: Income & Expenses -->
-                <div class="section-divider">
-                    <div class="section-divider-line"></div>
-                    <span class="section-divider-label">&#128188; Income &amp; Expenses</span>
-                    <div class="section-divider-line"></div>
+            <!-- SECTION 02: INFLOW & CAPITAL RESERVES -->
+            <section class="app-section" id="sectionInflow">
+                <div class="app-section-header">
+                    <div class="app-section-title-group">
+                        <span class="app-section-pill">SECTION 02</span>
+                        <h2 class="app-section-title">Inflows & Liquid Reserves</h2>
+                    </div>
+                    <span class="app-section-tag">💼 Baseline Income & Capital</span>
                 </div>
 
-                <!-- CARD 1: INFLOW & CAPITAL -->
                 <div class="card">
                     <div class="card-header">
                         <div class="card-icon">💼</div>
                         <div>
-                            <h2 class="card-title">Income & Reserves</h2>
+                            <h3 class="card-title">Income & Reserves</h3>
                             <p class="card-desc">Your monthly take-home earnings & existing liquid assets</p>
                         </div>
                     </div>
@@ -168,93 +178,110 @@
                         </div>
                     </div>
                 </div>
+            </section>
 
-                <!-- CARD 2: ESSENTIAL LIVING EXPENSES (NEEDS) -->
+            <!-- SECTION 03: EXPENDITURE & BUDGET ALLOCATION -->
+            <section class="app-section" id="sectionOutflow">
+                <div class="app-section-header">
+                    <div class="app-section-title-group">
+                        <span class="app-section-pill">SECTION 03</span>
+                        <h2 class="app-section-title">Cash Outflow & Budget Commitments</h2>
+                    </div>
+                    <span class="app-section-tag">📊 50/30 Benchmark Allocation</span>
+                </div>
+
+                <div class="sub-cards-grid">
+                    <!-- CARD 2: ESSENTIAL LIVING EXPENSES (NEEDS) -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">🏠</div>
+                            <div>
+                                <h3 class="card-title">Fixed & Living Needs</h3>
+                                <p class="card-desc">Essential non-negotiable living costs (50% guideline)</p>
+                            </div>
+                        </div>
+
+                        <div class="input-field-group">
+                            <div class="input-wrapper">
+                                <label class="input-label" for="rent">Rent / Home Loan EMI (₹)</label>
+                                <div class="input-box">
+                                    <span class="input-prefix">₹</span>
+                                    <input type="number" id="rent" class="custom-input" placeholder="e.g. 20,000" min="0" step="any">
+                                </div>
+                            </div>
+
+                            <div class="input-wrapper">
+                                <label class="input-label" for="food">Groceries & Daily Food (₹)</label>
+                                <div class="input-box">
+                                    <span class="input-prefix">₹</span>
+                                    <input type="number" id="food" class="custom-input" placeholder="e.g. 10,000" min="0" step="any">
+                                </div>
+                            </div>
+
+                            <div class="input-wrapper">
+                                <label class="input-label" for="transport">Commute & Fuel (₹)</label>
+                                <div class="input-box">
+                                    <span class="input-prefix">₹</span>
+                                    <input type="number" id="transport" class="custom-input" placeholder="e.g. 4,500" min="0" step="any">
+                                </div>
+                            </div>
+
+                            <div class="input-wrapper">
+                                <label class="input-label" for="bills">Utilities & Bills (₹)</label>
+                                <div class="input-box">
+                                    <span class="input-prefix">₹</span>
+                                    <input type="number" id="bills" class="custom-input" placeholder="e.g. 3,500" min="0" step="any">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CARD 3: DISCRETIONARY & LIFESTYLE (WANTS) -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">☕</div>
+                            <div>
+                                <h3 class="card-title">Discretionary Outflows</h3>
+                                <p class="card-desc">Lifestyle, dining out, subscriptions & miscellaneous</p>
+                            </div>
+                        </div>
+
+                        <div class="input-field-group">
+                            <div class="input-wrapper">
+                                <label class="input-label" for="entertainment">Leisure, Dining & Subscriptions (₹)</label>
+                                <div class="input-box">
+                                    <span class="input-prefix">₹</span>
+                                    <input type="number" id="entertainment" class="custom-input" placeholder="e.g. 6,000" min="0" step="any">
+                                </div>
+                            </div>
+
+                            <div class="input-wrapper">
+                                <label class="input-label" for="other">Other Unplanned Expenses (₹)</label>
+                                <div class="input-box">
+                                    <span class="input-prefix">₹</span>
+                                    <input type="number" id="other" class="custom-input" placeholder="e.g. 3,000" min="0" step="any">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 04: STRATEGIC TARGET OBJECTIVE -->
+            <section class="app-section" id="sectionGoals">
+                <div class="app-section-header">
+                    <div class="app-section-title-group">
+                        <span class="app-section-pill">SECTION 04</span>
+                        <h2 class="app-section-title">Target Objective & Milestone Horizon</h2>
+                    </div>
+                    <span class="app-section-tag">🎯 Forward Capital Accumulation</span>
+                </div>
+
                 <div class="card">
-                    <div class="card-header">
-                        <div class="card-icon">🏠</div>
-                        <div>
-                            <h2 class="card-title">Fixed & Living Needs</h2>
-                            <p class="card-desc">Essential non-negotiable living costs (50% guideline)</p>
-                        </div>
-                    </div>
-
-                    <div class="input-field-group">
-                        <div class="input-wrapper">
-                            <label class="input-label" for="rent">Rent / Home Loan EMI (₹)</label>
-                            <div class="input-box">
-                                <span class="input-prefix">₹</span>
-                                <input type="number" id="rent" class="custom-input" placeholder="e.g. 20,000" min="0" step="any">
-                            </div>
-                        </div>
-
-                        <div class="input-wrapper">
-                            <label class="input-label" for="food">Groceries & Daily Food (₹)</label>
-                            <div class="input-box">
-                                <span class="input-prefix">₹</span>
-                                <input type="number" id="food" class="custom-input" placeholder="e.g. 10,000" min="0" step="any">
-                            </div>
-                        </div>
-
-                        <div class="input-wrapper">
-                            <label class="input-label" for="transport">Commute & Fuel (₹)</label>
-                            <div class="input-box">
-                                <span class="input-prefix">₹</span>
-                                <input type="number" id="transport" class="custom-input" placeholder="e.g. 4,500" min="0" step="any">
-                            </div>
-                        </div>
-
-                        <div class="input-wrapper">
-                            <label class="input-label" for="bills">Utilities & Bills (₹)</label>
-                            <div class="input-box">
-                                <span class="input-prefix">₹</span>
-                                <input type="number" id="bills" class="custom-input" placeholder="e.g. 3,500" min="0" step="any">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- CARD 3: DISCRETIONARY & LIFESTYLE (WANTS) -->
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-icon">☕</div>
-                        <div>
-                            <h2 class="card-title">Discretionary Outflows</h2>
-                            <p class="card-desc">Lifestyle, dining out, subscriptions & miscellaneous</p>
-                        </div>
-                    </div>
-
-                    <div class="input-field-group">
-                        <div class="input-wrapper">
-                            <label class="input-label" for="entertainment">Leisure, Dining & Subscriptions (₹)</label>
-                            <div class="input-box">
-                                <span class="input-prefix">₹</span>
-                                <input type="number" id="entertainment" class="custom-input" placeholder="e.g. 6,000" min="0" step="any">
-                            </div>
-                        </div>
-
-                        <div class="input-wrapper">
-                            <label class="input-label" for="other">Other Unplanned Expenses (₹)</label>
-                            <div class="input-box">
-                                <span class="input-prefix">₹</span>
-                                <input type="number" id="other" class="custom-input" placeholder="e.g. 3,000" min="0" step="any">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- CARD 4: STRATEGIC TARGET OBJECTIVE -->
-                <!-- SECTION DIVIDER: Goals -->
-                <div class="section-divider">
-                    <div class="section-divider-line"></div>
-                    <span class="section-divider-label">&#127919; Financial Goals</span>
-                    <div class="section-divider-line"></div>
-                </div>
-                <div class="card" style="grid-column: 1 / -1;">
                     <div class="card-header">
                         <div class="card-icon">🎯</div>
                         <div>
-                            <h2 class="card-title">Target Objective</h2>
+                            <h3 class="card-title">Strategic Goal Definition</h3>
                             <p class="card-desc">What milestone are you aiming to achieve?</p>
                         </div>
                     </div>
@@ -285,23 +312,25 @@
                         </div>
                     </div>
                 </div>
+            </section>
 
-            </div>
+            <!-- SECTION 05: ADVISORY ACTIONS -->
+            <section class="app-section app-section-actions">
+                <div class="form-actions-bar">
+                    <button type="button" class="btn-secondary" id="btnDemoProfile">
+                        <span style="margin-right: 6px;">⚡</span> Load Sample Profile
+                    </button>
 
-            <!-- ACTION BAR -->
-            <div class="form-actions-bar">
-                <button type="button" class="btn-secondary" id="btnDemoProfile">
-                    <span style="margin-right: 6px;">⚡</span> Load Sample Profile
-                </button>
+                    <button type="submit" class="btn-primary" id="btnSubmit">
+                        <span>Generate AI Financial Advisory Report</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </button>
+                </div>
+            </section>
 
-                <button type="submit" class="btn-primary" id="btnSubmit">
-                    <span>Generate AI Financial Advisory Report</span>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                        <polyline points="12 5 19 12 12 19"></polyline>
-                    </svg>
-                </button>
-            </div>
         </form>
 
     </main>

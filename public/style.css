@@ -573,6 +573,127 @@ body {
 }
 
 /* ==========================================================================
+   EXECUTIVE DASHBOARD SECTIONS (PROFESSIONAL FINTECH ARCHITECTURE)
+   ========================================================================== */
+.app-section {
+    background: rgba(8, 14, 24, 0.75);
+    border: 1px solid rgba(0, 180, 255, 0.16);
+    border-radius: var(--radius-xl);
+    padding: 26px 28px;
+    margin-bottom: 28px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 12px 35px -8px rgba(0, 0, 0, 0.75);
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+[data-theme="light"] .app-section {
+    background: #ffffff;
+    border-color: var(--border-subtle);
+    box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.08);
+}
+
+.app-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--neon) 0%, transparent 100%);
+    opacity: 0.8;
+}
+
+.app-section:hover {
+    border-color: rgba(0, 180, 255, 0.35);
+    box-shadow: 0 16px 45px -10px rgba(0, 0, 0, 0.85), 0 0 25px rgba(0, 180, 255, 0.1);
+}
+
+.app-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(0, 180, 255, 0.12);
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+[data-theme="light"] .app-section-header {
+    border-bottom-color: var(--border-subtle);
+}
+
+.app-section-title-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.app-section-pill {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: rgba(0, 180, 255, 0.12);
+    color: var(--neon);
+    border: 1px solid rgba(0, 180, 255, 0.28);
+}
+
+.app-section-title {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: var(--text-bright);
+    margin: 0;
+}
+
+.app-section-tag {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-subtle);
+    padding: 4px 12px;
+    border-radius: 20px;
+}
+
+.sub-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.app-section .live-strip {
+    margin-bottom: 0;
+}
+
+.app-section-actions {
+    background: transparent;
+    border: none;
+    padding: 0;
+    box-shadow: none;
+    margin-bottom: 0;
+}
+
+.app-section-actions::before {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .sub-cards-grid {
+        grid-template-columns: 1fr;
+    }
+    .app-section {
+        padding: 20px 16px;
+    }
+}
+
+/* ==========================================================================
    FORM GRID & INPUTS (INPUT.HTML)
    ========================================================================== */
 .form-grid {
