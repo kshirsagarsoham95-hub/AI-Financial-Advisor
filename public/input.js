@@ -38,6 +38,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     const modal = document.getElementById("loadingModal");
     const statusText = document.getElementById("loadingStatusText");
 
+    // Ensure loading modal is completely hidden on initial page load
+    if (modal) {
+        modal.style.display = "none";
+        modal.classList.remove("active");
+    }
+
     // Inputs
     const incomeInput = document.getElementById("income");
     const rentInput = document.getElementById("rent");
@@ -220,7 +226,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         sessionStorage.setItem("financialInputs", JSON.stringify(payload));
 
         // Open modal & start animation steps
-        modal.classList.add("active");
+        if (modal) {
+            modal.style.display = "flex";
+            modal.classList.add("active");
+        }
         btnSubmit.disabled = true;
 
         const steps = [
@@ -279,7 +288,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         } catch (error) {
             clearInterval(stepInterval);
-            modal.classList.remove("active");
+            if (modal) {
+                modal.classList.remove("active");
+                modal.style.display = "none";
+            }
             btnSubmit.disabled = false;
             alert("Analysis Notice: " + error.message);
             console.error("Submission failed:", error);

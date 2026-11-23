@@ -11,6 +11,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const loginMessage = document.getElementById("loginMessage");
     const btnLogin = document.getElementById("btnLogin");
 
+    const demoBadge = document.querySelector(".demo-credentials-badge");
+    if (demoBadge) {
+        demoBadge.addEventListener("click", () => {
+            document.getElementById("email").value = "client@finadvisor.ai";
+            document.getElementById("password").value = "password123";
+            loginMessage.textContent = "Demo credentials loaded! Click below to enter.";
+            loginMessage.style.color = "#00d2ff";
+        });
+    }
+
     loginForm.addEventListener("submit", async function (event) {
         event.preventDefault();
 
@@ -43,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             loginMessage.textContent = "Authentication successful! Redirecting...";
-            loginMessage.style.color = "#34d399";
+            loginMessage.style.color = "#00d2ff";
 
             setTimeout(() => {
                 window.location.href = "/input.html";

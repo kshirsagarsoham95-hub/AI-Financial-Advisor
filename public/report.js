@@ -1,4 +1,4 @@
-// ==========================================================================
+﻿// ==========================================================================
 // AI FINANCIAL ADVISOR - FLAGSHIP FINTECH DASHBOARD ENGINE
 // Stripe / Ramp / Linear Architecture
 // ==========================================================================
@@ -125,7 +125,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Helpers
     function formatRupee(amount) {
-        return "₹" + Math.round(Number(amount) || 0).toLocaleString("en-IN");
+        return "â‚¹" + Math.round(Number(amount) || 0).toLocaleString("en-IN");
     }
 
     function animateNumber(element, start, end, prefix = "", suffix = "", duration = 1200) {
@@ -182,7 +182,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (healthScoreNum) animateNumber(healthScoreNum, 0, score, "", "", 1000);
     if (scoreDial) {
         scoreDial.style.setProperty("--score-pct", score);
-        const scoreColor = score >= 75 ? "#10b981" : score >= 50 ? "#f59e0b" : "#f43f5e";
+        const scoreColor = score >= 75 ? "#00b4ff" : score >= 50 ? "#f59e0b" : "#f43f5e";
         scoreDial.style.background = `conic-gradient(${scoreColor} calc(${score} * 1%), var(--border-subtle) 0)`;
     }
     if (healthScoreBadge) {
@@ -204,7 +204,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const kpiNetWorth = document.getElementById("kpiNetWorth");
     const kpiNetWorthSub = document.getElementById("kpiNetWorthSub");
     const kpiNetWorthPill = document.getElementById("kpiNetWorthPill");
-    if (kpiNetWorth) animateNumber(kpiNetWorth, 0, estimatedNetWorth, "₹", "", 1200);
+    if (kpiNetWorth) animateNumber(kpiNetWorth, 0, estimatedNetWorth, "â‚¹", "", 1200);
     if (kpiNetWorthSub) kpiNetWorthSub.textContent = `Liquid buffer: ${formatRupee(currentSavings)}`;
     if (kpiNetWorthPill) {
         kpiNetWorthPill.textContent = currentSavings >= (incomeTotal * 3) ? "+18.5% Strong" : "+9.2% Moderate";
@@ -216,7 +216,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const kpiCashflowPill = document.getElementById("kpiCashflowPill");
     if (kpiNetCashflow) {
         const sign = netCashflow >= 0 ? "+" : "-";
-        animateNumber(kpiNetCashflow, 0, Math.abs(netCashflow), sign + "₹", "", 1200);
+        animateNumber(kpiNetCashflow, 0, Math.abs(netCashflow), sign + "â‚¹", "", 1200);
         kpiNetCashflow.style.color = netCashflow >= 0 ? "var(--accent-emerald-light)" : "var(--accent-rose-light)";
     }
     if (kpiNetCashflowSub) {
@@ -235,7 +235,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const kpiSavingsRatePill = document.getElementById("kpiSavingsRatePill");
     if (kpiSavingsRate) animateNumber(kpiSavingsRate, 0, Math.round(savingsRate), "", "%", 1000);
     if (kpiSavingsRateSub) {
-        kpiSavingsRateSub.textContent = savingsRate >= 20 ? "Meets institutional benchmark (≥20%)" : "Under ideal wealth generation rate (<20%)";
+        kpiSavingsRateSub.textContent = savingsRate >= 20 ? "Meets institutional benchmark (â‰¥20%)" : "Under ideal wealth generation rate (<20%)";
     }
     if (kpiSavingsRatePill) {
         const delta = (savingsRate - 20).toFixed(1);
@@ -276,42 +276,42 @@ document.addEventListener("DOMContentLoaded", async () => {
     const categories = [
         {
             name: "Housing & Rent",
-            icon: "🏠",
+            icon: "ðŸ ",
             amount: rentVal,
             recommendedMaxPct: 35,
             color: "#6366F1"
         },
         {
             name: "Groceries & Food",
-            icon: "🛒",
+            icon: "ðŸ›’",
             amount: foodVal,
             recommendedMaxPct: 20,
             color: "#38BDF8"
         },
         {
             name: "Commute & Transit",
-            icon: "🚗",
+            icon: "ðŸš—",
             amount: transportVal,
             recommendedMaxPct: 12,
             color: "#A855F7"
         },
         {
             name: "Utilities & Bills",
-            icon: "⚡",
+            icon: "âš¡",
             amount: billsVal,
             recommendedMaxPct: 10,
             color: "#F59E0B"
         },
         {
             name: "Lifestyle & Leisure",
-            icon: "☕",
+            icon: "â˜•",
             amount: entertainmentVal,
             recommendedMaxPct: 15,
             color: "#F43F5E"
         },
         {
             name: "Other Discretionary",
-            icon: "📦",
+            icon: "ðŸ“¦",
             amount: otherVal,
             recommendedMaxPct: 10,
             color: "#64748B"
@@ -325,7 +325,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             const isAnomaly = Number(pctOfIncome) > cat.recommendedMaxPct;
             const isBorderline = Number(pctOfIncome) > (cat.recommendedMaxPct * 0.85);
             const badgeClass = isAnomaly ? 'alert' : isBorderline ? 'warning' : 'safe';
-            const statusIcon = isAnomaly ? '⚠' : '✓';
+            const statusIcon = isAnomaly ? 'âš ' : 'âœ“';
 
             const chip = document.createElement("div");
             chip.className = `cat-chip ${badgeClass}`;
@@ -379,7 +379,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const targetDateObj = new Date();
         targetDateObj.setMonth(targetDateObj.getMonth() + projectedMonths);
         const dateStr = targetDateObj.toLocaleDateString("en-US", { month: "short", year: "numeric" });
-        goalCountdownPill.textContent = `⚡ ~${projectedMonths} Months Horizon • Target: ${dateStr}`;
+        goalCountdownPill.textContent = `âš¡ ~${projectedMonths} Months Horizon â€¢ Target: ${dateStr}`;
     }
 
     if (analysis.goalRoadmap) {
@@ -443,7 +443,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     priority: "Growth",
                     timeframe: "Ongoing",
                     title: "Deploy Unallocated Cashflow into Broad-Market Index Assets",
-                    impact: "12%–14% CAGR Long-Term Compounding",
+                    impact: "12%â€“14% CAGR Long-Term Compounding",
                     details: "Harness systematic rupee cost averaging through low-cost index and flexi-cap vehicles to outpace inflation and double net assets every 5-7 years."
                 }
             ];
@@ -592,7 +592,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         { label: "Other Expenses", value: otherVal, color: "#64748b" }
     ];
     if (netCashflow > 0) {
-        outflowItems.push({ label: "Unallocated Monthly Surplus", value: netCashflow, color: "#10b981" });
+        outflowItems.push({ label: "Unallocated Monthly Surplus", value: netCashflow, color: "#00b4ff" });
     }
     const activeOutflowItems = outflowItems.filter(item => item.value > 0);
     const totalOutflowBase = activeOutflowItems.reduce((acc, cur) => acc + cur.value, 0) || Math.max(1, incomeTotal);
@@ -636,7 +636,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const benchmarkSubtitle = document.getElementById("benchmarkSubtitle");
     if (benchmarkSubtitle) {
-        benchmarkSubtitle.textContent = `Needs 50% (${formatRupee(incomeTotal * 0.5)}) • Wants 30% (${formatRupee(incomeTotal * 0.3)}) • Savings 20% (${formatRupee(incomeTotal * 0.2)})`;
+        benchmarkSubtitle.textContent = `Needs 50% (${formatRupee(incomeTotal * 0.5)}) â€¢ Wants 30% (${formatRupee(incomeTotal * 0.3)}) â€¢ Savings 20% (${formatRupee(incomeTotal * 0.2)})`;
     }
 
     const benchmarkItems = [
@@ -647,7 +647,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             actualVal: actualNeedsVal,
             idealVal: incomeTotal * 0.5,
             color: "#6366f1",
-            status: actualNeedsPct <= 50 ? "Within Target (≤50%)" : "Over Benchmark (>50%)",
+            status: actualNeedsPct <= 50 ? "Within Target (â‰¤50%)" : "Over Benchmark (>50%)",
             isGood: actualNeedsPct <= 50
         },
         {
@@ -657,7 +657,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             actualVal: actualWantsVal,
             idealVal: incomeTotal * 0.3,
             color: "#f43f5e",
-            status: actualWantsPct <= 30 ? "Controlled (≤30%)" : "High Discretionary (>30%)",
+            status: actualWantsPct <= 30 ? "Controlled (â‰¤30%)" : "High Discretionary (>30%)",
             isGood: actualWantsPct <= 30
         },
         {
@@ -666,8 +666,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             idealPct: 20,
             actualVal: actualSavingsVal,
             idealVal: incomeTotal * 0.2,
-            color: "#10b981",
-            status: actualSavingsPct >= 20 ? "Target Met (≥20%)" : "Under Target (<20%)",
+            color: "#00b4ff",
+            status: actualSavingsPct >= 20 ? "Target Met (â‰¥20%)" : "Under Target (<20%)",
             isGood: actualSavingsPct >= 20
         }
     ];
@@ -746,15 +746,15 @@ document.addEventListener("DOMContentLoaded", async () => {
                                 backgroundColor: "rgba(99, 102, 241, 0.25)",
                                 borderColor: "#6366F1",
                                 borderWidth: 2,
-                                pointBackgroundColor: "#10B981",
+                                pointBackgroundColor: "#00b4ff",
                                 pointBorderColor: "#FFFFFF",
                                 pointHoverRadius: 6
                             },
                             {
                                 label: "Target Optimal Benchmark",
                                 data: [85, 80, 80, 85, 80, 85],
-                                backgroundColor: "rgba(16, 185, 129, 0.08)",
-                                borderColor: "rgba(16, 185, 129, 0.45)",
+                                backgroundColor: "rgba(0, 180, 255, 0.08)",
+                                borderColor: "rgba(0, 180, 255, 0.45)",
                                 borderWidth: 1,
                                 borderDash: [4, 4],
                                 pointRadius: 0
@@ -821,18 +821,18 @@ document.addEventListener("DOMContentLoaded", async () => {
                         labels: months,
                         datasets: [
                             {
-                                label: "Accumulated Liquid Capital (₹)",
+                                label: "Accumulated Liquid Capital (â‚¹)",
                                 data: cumulativeSurplus,
-                                borderColor: "#10B981",
-                                backgroundColor: "rgba(16, 185, 129, 0.12)",
+                                borderColor: "#00b4ff",
+                                backgroundColor: "rgba(0, 180, 255, 0.12)",
                                 fill: true,
                                 tension: 0.35,
                                 borderWidth: 2.5,
-                                pointBackgroundColor: "#10B981",
+                                pointBackgroundColor: "#00b4ff",
                                 yAxisID: "y1"
                             },
                             {
-                                label: "Monthly Net Inflow (₹)",
+                                label: "Monthly Net Inflow (â‚¹)",
                                 data: Array(6).fill(incomeTotal),
                                 borderColor: "#6366F1",
                                 borderDash: [5, 5],
@@ -841,7 +841,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                                 yAxisID: "y"
                             },
                             {
-                                label: "Total Monthly Outflow (₹)",
+                                label: "Total Monthly Outflow (â‚¹)",
                                 data: Array(6).fill(totalOutflow),
                                 borderColor: "#F43F5E",
                                 borderWidth: 2,
@@ -863,7 +863,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                                 grid: { color: gridColor },
                                 ticks: {
                                     color: textColor,
-                                    callback: val => "₹" + Math.round(val / 1000) + "k"
+                                    callback: val => "â‚¹" + Math.round(val / 1000) + "k"
                                 }
                             },
                             y1: {
@@ -872,8 +872,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                                 position: "right",
                                 grid: { drawOnChartArea: false },
                                 ticks: {
-                                    color: "#10B981",
-                                    callback: val => "₹" + Math.round(val / 1000) + "k"
+                                    color: "#00b4ff",
+                                    callback: val => "â‚¹" + Math.round(val / 1000) + "k"
                                 }
                             },
                             x: {
@@ -966,7 +966,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                             {
                                 label: "Actual Client Allocation (%)",
                                 data: [actualNeedsPct, actualWantsPct, actualSavingsPct],
-                                backgroundColor: ["rgba(99, 102, 241, 0.85)", "rgba(244, 63, 94, 0.85)", "rgba(16, 185, 129, 0.85)"],
+                                backgroundColor: ["rgba(99, 102, 241, 0.85)", "rgba(244, 63, 94, 0.85)", "rgba(0, 180, 255, 0.85)"],
                                 borderRadius: 6
                             },
                             {
@@ -1112,18 +1112,18 @@ document.addEventListener("DOMContentLoaded", async () => {
                         labels: labels,
                         datasets: [
                             {
-                                label: "Compounded Corpus Growth (₹)",
+                                label: "Compounded Corpus Growth (â‚¹)",
                                 data: corpusData,
-                                borderColor: "#10B981",
-                                backgroundColor: "rgba(16, 185, 129, 0.18)",
+                                borderColor: "#00b4ff",
+                                backgroundColor: "rgba(0, 180, 255, 0.18)",
                                 fill: true,
                                 tension: 0.35,
                                 borderWidth: 2.5,
-                                pointBackgroundColor: "#10B981",
+                                pointBackgroundColor: "#00b4ff",
                                 pointRadius: 3
                             },
                             {
-                                label: "Cumulative Invested Principal (₹)",
+                                label: "Cumulative Invested Principal (â‚¹)",
                                 data: investedData,
                                 borderColor: "#6366F1",
                                 backgroundColor: "rgba(99, 102, 241, 0.12)",
@@ -1143,7 +1143,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                                 grid: { color: gridColor },
                                 ticks: {
                                     color: textColor,
-                                    callback: val => "₹" + Math.round(val / 100000) + "L"
+                                    callback: val => "â‚¹" + Math.round(val / 100000) + "L"
                                 }
                             },
                             x: {
@@ -1223,7 +1223,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         
         const avatarHtml = sender === "user" ? 
             `<div class="user-avatar" style="width: 28px; height: 28px; font-size: 11px;">U</div>` :
-            `<div class="copilot-avatar" style="width: 28px; height: 28px; font-size: 13px;">✨</div>`;
+            `<div class="copilot-avatar" style="width: 28px; height: 28px; font-size: 13px;">âœ¨</div>`;
 
         msg.innerHTML = `
             ${avatarHtml}
@@ -1241,7 +1241,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const typingEl = document.createElement("div");
         typingEl.className = "copilot-message ai typing-message";
         typingEl.innerHTML = `
-            <div class="copilot-avatar" style="width: 28px; height: 28px; font-size: 13px;">✨</div>
+            <div class="copilot-avatar" style="width: 28px; height: 28px; font-size: 13px;">âœ¨</div>
             <div class="copilot-msg-bubble">
                 <div class="typing-dots">
                     <span class="typing-dot"></span>
@@ -1295,3 +1295,4 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     }
 });
+

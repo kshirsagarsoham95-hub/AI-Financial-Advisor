@@ -127,6 +127,13 @@
         <form id="advisorForm" autocomplete="off">
             <div class="form-grid">
 
+                <!-- SECTION DIVIDER: Income & Expenses -->
+                <div class="section-divider">
+                    <div class="section-divider-line"></div>
+                    <span class="section-divider-label">&#128188; Income &amp; Expenses</span>
+                    <div class="section-divider-line"></div>
+                </div>
+
                 <!-- CARD 1: INFLOW & CAPITAL -->
                 <div class="card">
                     <div class="card-header">
@@ -237,7 +244,13 @@
                 </div>
 
                 <!-- CARD 4: STRATEGIC TARGET OBJECTIVE -->
-                <div class="card">
+                <!-- SECTION DIVIDER: Goals -->
+                <div class="section-divider">
+                    <div class="section-divider-line"></div>
+                    <span class="section-divider-label">&#127919; Financial Goals</span>
+                    <div class="section-divider-line"></div>
+                </div>
+                <div class="card" style="grid-column: 1 / -1;">
                     <div class="card-header">
                         <div class="card-icon">🎯</div>
                         <div>
@@ -293,8 +306,8 @@
 
     </main>
 
-    <!-- LOADING MODAL OVERLAY -->
-    <div class="modal-overlay" id="loadingModal">
+    <!-- LOADING MODAL OVERLAY (HIDDEN BY DEFAULT, ONLY SHOWN ON SUBMIT) -->
+    <div class="modal-overlay" id="loadingModal" style="display: none;" aria-hidden="true">
         <div class="loading-card">
             <div class="loading-spinner-ring"></div>
             <h3 class="loading-title">Analyzing Portfolio Health</h3>
