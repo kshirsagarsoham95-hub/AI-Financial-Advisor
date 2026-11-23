@@ -336,89 +336,72 @@
                 </div>
             </section>
 
-            <!-- FEATURE 5: CATEGORY EXPENSE BREAKDOWN & ANOMALY DETECTION CARDS -->
+            <!-- FEATURE 5+4 MERGED: SPEND INTELLIGENCE & PROJECTION COCKPIT -->
             <div class="section-title-row" style="margin-top: 10px;">
                 <h2 class="section-main-heading">
-                    <span>💳</span>
-                    <span>Category Outflows & Anomaly Detection</span>
+                    <span>&#x1F4B3;</span>
+                    <span>Spend Intelligence &amp; Wealth Projection</span>
                 </h2>
-                <span class="brand-badge">Automated Surveillance</span>
+                <div style="display:flex;gap:6px;align-items:center;">
+                    <span class="brand-badge">Automated Surveillance</span>
+                    <span class="brand-badge" style="background:rgba(99,102,241,0.15);color:var(--primary-light);border-color:rgba(99,102,241,0.3);">Real-Time Reactive</span>
+                </div>
             </div>
 
-            <section class="expense-categories-grid" id="expenseAnomalyGrid">
-                <!-- Populated dynamically by report.js with anomaly alerts -->
-            </section>
-
-            <!-- FEATURE 4: INTERACTIVE "WHAT-IF" WEALTH PROJECTION CALCULATOR -->
-            <div class="section-title-row" style="margin-top: 10px;">
-                <h2 class="section-main-heading">
-                    <span>🔮</span>
-                    <span>Interactive "What-If" Wealth Projection Calculator</span>
-                </h2>
-                <span class="brand-badge">Real-Time Reactive</span>
-            </div>
-
-            <section class="what-if-calculator-card">
-                <div class="what-if-grid">
-                    <!-- CONTROLS -->
-                    <div class="what-if-controls">
-                        <div class="slider-group">
-                            <div class="slider-label-row">
-                                <span class="slider-title">Monthly SIP Deployment</span>
-                                <span class="slider-value-display" id="whatIfSipDisplay">₹28,000</span>
+            <section class="cockpit-card">
+                <div class="cockpit-categories" id="expenseAnomalyGrid"></div>
+                <div class="cockpit-divider"></div>
+                <div class="cockpit-projection">
+                    <div class="cockpit-sliders">
+                        <div class="cslider-row">
+                            <div class="cslider-meta">
+                                <span class="cslider-label">Monthly SIP</span>
+                                <span class="cslider-val" id="whatIfSipDisplay">&#x20B9;28,000</span>
                             </div>
                             <input type="range" id="whatIfSipSlider" class="fintech-slider" min="1000" max="100000" step="1000" value="28000">
                         </div>
-
-                        <div class="slider-group">
-                            <div class="slider-label-row">
-                                <span class="slider-title">Expected Portfolio CAGR (% p.a.)</span>
-                                <span class="slider-value-display" id="whatIfCagrDisplay">12.0%</span>
+                        <div class="cslider-row">
+                            <div class="cslider-meta">
+                                <span class="cslider-label">CAGR (% p.a.)</span>
+                                <span class="cslider-val" id="whatIfCagrDisplay">12.0%</span>
                             </div>
                             <input type="range" id="whatIfCagrSlider" class="fintech-slider" min="5" max="20" step="0.5" value="12">
                         </div>
-
-                        <div class="slider-group">
-                            <div class="slider-label-row">
-                                <span class="slider-title">Investment Time Horizon</span>
-                                <span class="slider-value-display" id="whatIfHorizonDisplay">5 Years</span>
+                        <div class="cslider-row">
+                            <div class="cslider-meta">
+                                <span class="cslider-label">Horizon</span>
+                                <span class="cslider-val" id="whatIfHorizonDisplay">5 Years</span>
                             </div>
                             <input type="range" id="whatIfHorizonSlider" class="fintech-slider" min="1" max="25" step="1" value="5">
                         </div>
-
-                        <div class="slider-group">
-                            <div class="slider-label-row">
-                                <span class="slider-title">Annual Step-Up Rate (%)</span>
-                                <span class="slider-value-display" id="whatIfStepUpDisplay">10.0%</span>
+                        <div class="cslider-row">
+                            <div class="cslider-meta">
+                                <span class="cslider-label">Step-Up (%)</span>
+                                <span class="cslider-val" id="whatIfStepUpDisplay">10.0%</span>
                             </div>
                             <input type="range" id="whatIfStepUpSlider" class="fintech-slider" min="0" max="25" step="1" value="10">
                         </div>
                     </div>
-
-                    <!-- RESULTS & REACTIVE CHART -->
-                    <div class="what-if-results-panel">
-                        <div class="what-if-stat-grid">
-                            <div class="what-if-stat-card">
-                                <div class="what-if-stat-label">Total Invested Principal</div>
-                                <div class="what-if-stat-value" id="whatIfInvestedVal" style="color: var(--primary-light);">₹20,51,000</div>
-                            </div>
-                            <div class="what-if-stat-card">
-                                <div class="what-if-stat-label">Estimated Wealth Gain</div>
-                                <div class="what-if-stat-value" id="whatIfGainVal" style="color: var(--accent-emerald-light);">+₹8,74,000</div>
-                            </div>
-                            <div class="what-if-stat-card">
-                                <div class="what-if-stat-label">Projected Corpus</div>
-                                <div class="what-if-stat-value" id="whatIfMaturityVal" style="color: var(--text-bright);">₹29,25,000</div>
-                            </div>
-                            <div class="what-if-stat-card">
-                                <div class="what-if-stat-label">Inflation-Adjusted Real Value</div>
-                                <div class="what-if-stat-value" id="whatIfInflationVal" style="color: var(--accent-cyan-light);">₹21,85,000</div>
-                            </div>
+                    <div class="cockpit-kpis">
+                        <div class="ckpi-tile">
+                            <span class="ckpi-label">Invested</span>
+                            <span class="ckpi-value" id="whatIfInvestedVal" style="color:var(--primary-light);">&#x2014;</span>
                         </div>
-
-                        <div class="what-if-chart-wrapper">
-                            <canvas id="projectionChart"></canvas>
+                        <div class="ckpi-tile">
+                            <span class="ckpi-label">Wealth Gain</span>
+                            <span class="ckpi-value" id="whatIfGainVal" style="color:var(--accent-emerald-light);">&#x2014;</span>
                         </div>
+                        <div class="ckpi-tile">
+                            <span class="ckpi-label">Corpus</span>
+                            <span class="ckpi-value" id="whatIfMaturityVal" style="color:var(--text-bright);">&#x2014;</span>
+                        </div>
+                        <div class="ckpi-tile">
+                            <span class="ckpi-label">Real Value</span>
+                            <span class="ckpi-value" id="whatIfInflationVal" style="color:var(--accent-cyan-light);">&#x2014;</span>
+                        </div>
+                    </div>
+                    <div class="cockpit-chart">
+                        <canvas id="projectionChart"></canvas>
                     </div>
                 </div>
             </section>

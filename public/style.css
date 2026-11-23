@@ -1152,128 +1152,223 @@ body {
 }
 
 /* ==========================================================================
-   CATEGORY OUTFLOWS & ANOMALY DETECTION
+   SPEND INTELLIGENCE & PROJECTION COCKPIT (merged section)
    ========================================================================== */
-.expense-categories-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
+
+/* Outer card */
+.cockpit-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 20px 22px;
     margin-bottom: 24px;
 }
 
-.expense-cat-card {
-    background: var(--bg-surface);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-md);
-    padding: 16px 18px;
-    display: flex;
-    flex-direction: column;
+/* ── Top row: category chips ── */
+.cockpit-categories {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
     gap: 10px;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    margin-bottom: 0;
 }
 
-.expense-cat-card:hover {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 1px var(--primary);
-}
-
-.cat-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
-.cat-icon-title {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.cat-icon-box {
-    width: 32px;
-    height: 32px;
-    border-radius: var(--radius-sm);
+.cat-chip {
     background: var(--bg-surface-elevated);
     border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 11px 10px 9px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: default;
+    transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    text-align: center;
+}
+.cat-chip:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+.cat-chip.alert  { border-color: rgba(244,63,94,0.35); }
+.cat-chip.warning { border-color: rgba(245,158,11,0.35); }
+.cat-chip.safe   { border-color: rgba(16,185,129,0.2); }
+
+.cat-chip-top {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
+    gap: 4px;
+    width: 100%;
+}
+.cat-chip-icon { font-size: 18px; line-height: 1; }
+
+.cat-chip-status {
+    font-size: 11px;
+    font-weight: 700;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
 }
+.cat-chip-status.safe    { background: rgba(16,185,129,0.15); color: #34D399; }
+.cat-chip-status.warning { background: rgba(245,158,11,0.15); color: #FBBF24; }
+.cat-chip-status.alert   { background: rgba(244,63,94,0.15);  color: #FB7185; }
 
-.cat-name {
-    font-size: 13px;
+.cat-chip-name {
+    font-size: 10.5px;
     font-weight: 600;
-    color: var(--text-bright);
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
 }
-
-.anomaly-badge {
-    font-size: 11px;
-    font-weight: 600;
-    padding: 3px 8px;
-    border-radius: 20px;
-    white-space: nowrap;
-}
-
-.anomaly-badge.safe {
-    background: rgba(16, 185, 129, 0.12);
-    color: #34D399;
-    border: 1px solid rgba(16, 185, 129, 0.25);
-}
-
-.anomaly-badge.warning {
-    background: rgba(245, 158, 11, 0.12);
-    color: #FBBF24;
-    border: 1px solid rgba(245, 158, 11, 0.25);
-}
-
-.anomaly-badge.alert {
-    background: rgba(244, 63, 94, 0.12);
-    color: #FB7185;
-    border: 1px solid rgba(244, 63, 94, 0.25);
-}
-
-.cat-amount-row {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 8px;
-}
-
-.cat-amount {
+.cat-chip-amount {
     font-family: var(--font-mono);
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 700;
     color: var(--text-bright);
 }
-
-.cat-pct {
-    font-size: 12px;
-    color: var(--text-secondary);
-}
-
-.cat-progress-bg {
-    height: 4px;
+.cat-chip-bar-bg {
+    width: 100%;
+    height: 3px;
     background: var(--border-subtle);
     border-radius: 2px;
     overflow: hidden;
 }
-
-.cat-progress-fill {
+.cat-chip-bar-fill {
     height: 100%;
     border-radius: 2px;
     transition: width 0.6s ease;
 }
+.cat-chip-pct {
+    font-size: 10px;
+    font-weight: 700;
+}
 
-@media (max-width: 900px) {
-    .expense-categories-grid { grid-template-columns: repeat(2, 1fr); }
+/* ── Divider ── */
+.cockpit-divider {
+    height: 1px;
+    background: var(--border-subtle);
+    margin: 16px 0;
 }
-@media (max-width: 600px) {
-    .expense-categories-grid { grid-template-columns: 1fr; }
+
+/* ── Bottom row: sliders | kpis | chart ── */
+.cockpit-projection {
+    display: grid;
+    grid-template-columns: 220px 1fr 1fr;
+    gap: 18px;
+    align-items: start;
 }
+
+/* Sliders column */
+.cockpit-sliders {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.cslider-row { display: flex; flex-direction: column; gap: 4px; }
+.cslider-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+.cslider-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+.cslider-val {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-bright);
+}
+
+/* Fintech range slider */
+.fintech-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--border-subtle);
+    outline: none;
+    cursor: pointer;
+    accent-color: var(--primary);
+}
+.fintech-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--primary);
+    cursor: pointer;
+    border: 2px solid var(--bg-surface);
+    box-shadow: 0 0 0 2px var(--primary);
+    transition: transform 0.1s ease;
+}
+.fintech-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+/* KPI tiles column */
+.cockpit-kpis {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 10px;
+}
+.ckpi-tile {
+    background: var(--bg-surface-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transition: border-color 0.15s ease;
+}
+.ckpi-tile:hover { border-color: var(--primary); }
+.ckpi-label {
+    font-size: 10.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+}
+.ckpi-value {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+/* Chart column */
+.cockpit-chart {
+    height: 148px;
+    position: relative;
+}
+.cockpit-chart canvas { width: 100% !important; height: 100% !important; }
+
+/* Responsive */
+@media (max-width: 1100px) {
+    .cockpit-categories { grid-template-columns: repeat(3, 1fr); }
+    .cockpit-projection { grid-template-columns: 200px 1fr; }
+    .cockpit-chart { grid-column: 1 / -1; height: 130px; }
+}
+@media (max-width: 700px) {
+    .cockpit-categories { grid-template-columns: repeat(2, 1fr); }
+    .cockpit-projection { grid-template-columns: 1fr; }
+}
+
+/* Keep old classes for any stale references (no visual effect) */
+.expense-categories-grid { display: contents; }
+.expense-cat-card, .cat-header, .cat-icon-title, .cat-icon-box,
+.cat-name, .cat-amount-row, .cat-amount, .cat-pct,
+.cat-progress-bg, .cat-progress-fill { display: none; }
+.anomaly-badge.safe, .anomaly-badge.warning, .anomaly-badge.alert { display: none; }
 
 /* ==========================================================================
    MILESTONES & ROADMAP

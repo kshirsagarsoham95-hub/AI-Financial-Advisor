@@ -324,31 +324,25 @@ document.addEventListener("DOMContentLoaded", async () => {
             const pctOfIncome = incomeTotal > 0 ? ((cat.amount / incomeTotal) * 100).toFixed(1) : 0;
             const isAnomaly = Number(pctOfIncome) > cat.recommendedMaxPct;
             const isBorderline = Number(pctOfIncome) > (cat.recommendedMaxPct * 0.85);
-
-            const badgeText = isAnomaly ? 
-                `⚠️ High Burden (>${cat.recommendedMaxPct}%)` : 
-                isBorderline ? `Borderline` : `✓ Healthy (≤${cat.recommendedMaxPct}%)`;
             const badgeClass = isAnomaly ? 'alert' : isBorderline ? 'warning' : 'safe';
+            const statusIcon = isAnomaly ? '⚠' : '✓';
 
-            const card = document.createElement("div");
-            card.className = "expense-cat-card";
-            card.innerHTML = `
-                <div class="cat-header">
-                    <div class="cat-icon-title">
-                        <div class="cat-icon-box">${cat.icon}</div>
-                        <span class="cat-name">${cat.name}</span>
-                    </div>
-                    <span class="anomaly-badge ${badgeClass}">${badgeText}</span>
+            const chip = document.createElement("div");
+            chip.className = `cat-chip ${badgeClass}`;
+            chip.title = `${cat.name}: ${pctOfIncome}% of income (limit: ${cat.recommendedMaxPct}%)`;
+            chip.innerHTML = `
+                <div class="cat-chip-top">
+                    <span class="cat-chip-icon">${cat.icon}</span>
+                    <span class="cat-chip-status ${badgeClass}">${statusIcon}</span>
                 </div>
-                <div class="cat-amount-row">
-                    <span class="cat-amount">${formatRupee(cat.amount)}</span>
-                    <span class="cat-pct">${pctOfIncome}% of income</span>
+                <div class="cat-chip-name">${cat.name.split(' ')[0]}</div>
+                <div class="cat-chip-amount">${formatRupee(cat.amount)}</div>
+                <div class="cat-chip-bar-bg">
+                    <div class="cat-chip-bar-fill" style="width:${Math.min(100, pctOfIncome)}%;background:${cat.color};"></div>
                 </div>
-                <div class="cat-progress-bg">
-                    <div class="cat-progress-fill" style="width: ${Math.min(100, pctOfIncome)}%; background: ${cat.color};"></div>
-                </div>
+                <div class="cat-chip-pct" style="color:${cat.color}">${pctOfIncome}%</div>
             `;
-            expenseAnomalyGrid.appendChild(card);
+            expenseAnomalyGrid.appendChild(chip);
         });
     }
 
