@@ -3,6 +3,34 @@
 // ==========================================================================
 
 document.addEventListener("DOMContentLoaded", async () => {
+    // Theme Toggle Switch Support (Feature 7)
+    const themeToggle = document.getElementById("themeToggle");
+    const themeBtnDark = document.getElementById("themeBtnDark");
+    const themeBtnLight = document.getElementById("themeBtnLight");
+
+    function applyTheme(theme) {
+        document.documentElement.setAttribute("data-theme", theme);
+        localStorage.setItem("finadvisor_theme", theme);
+        if (theme === "light") {
+            themeBtnLight?.classList.add("active");
+            themeBtnDark?.classList.remove("active");
+        } else {
+            themeBtnDark?.classList.add("active");
+            themeBtnLight?.classList.remove("active");
+        }
+    }
+
+    const savedTheme = localStorage.getItem("finadvisor_theme") || 
+        (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+    applyTheme(savedTheme);
+
+    if (themeToggle) {
+        themeToggle.addEventListener("click", () => {
+            const current = document.documentElement.getAttribute("data-theme") || "dark";
+            applyTheme(current === "dark" ? "light" : "dark");
+        });
+    }
+
     // User info display
     const invUserAvatar = document.getElementById("invUserAvatar");
     const invUserEmail = document.getElementById("invUserEmail");

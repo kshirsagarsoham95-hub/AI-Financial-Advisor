@@ -481,6 +481,135 @@ app.get("/api/latest-analysis", requireAuthApi, (req, res) => {
 });
 
 // ===============================
+// AI COPILOT INTERACTIVE CHAT API
+// ===============================
+app.post("/api/copilot", requireAuthApi, async (req, res) => {
+    try {
+        const { message, history } = req.body || {};
+        if (!message || !message.trim()) {
+            return res.status(400).json({ error: "Message is required." });
+        }
+
+        const assessment = req.session.latestAssessment || {};
+        const metrics = assessment.metrics || {
+            income: 75000,
+            rent: 20000,
+            food: 10000,
+            transport: 5000,
+            bills: 4000,
+            entertainment: 6000,
+            other: 3000,
+            savings: 150000,
+            remaining: 27000,
+            surplusPct: 36,
+            emergencyRunwayMonths: 3.1,
+            goal: "Financial Independence",
+            goalAmount: 500000,
+            targetMonths: 24
+        };
+
+        const prompt = `
+You are FinAdvisor AI Copilot, an elite chartered wealth manager and principal fintech advisor embedded directly inside the client's executive dashboard.
+The user is asking you a question about their finances.
+
+CLIENT FINANCIAL DOSSIER:
+- Monthly Income: ₹${metrics.income ? Number(metrics.income).toLocaleString("en-IN") : "75,000"}
+- Total Monthly Expenses: ₹${metrics.totalExpenses ? Number(metrics.totalExpenses).toLocaleString("en-IN") : "48,000"}
+  * Housing/Rent: ₹${Number(metrics.rent || 0).toLocaleString("en-IN")}
+  * Food/Groceries: ₹${Number(metrics.food || 0).toLocaleString("en-IN")}
+  * Transit: ₹${Number(metrics.transport || 0).toLocaleString("en-IN")}
+  * Bills/Utilities: ₹${Number(metrics.bills || 0).toLocaleString("en-IN")}
+  * Leisure/Wants: ₹${Number(metrics.entertainment || 0).toLocaleString("en-IN")}
+  * Other: ₹${Number(metrics.other || 0).toLocaleString("en-IN")}
+- Net Monthly Surplus: ₹${Number(metrics.remaining || 0).toLocaleString("en-IN")} (${metrics.surplusPct || 0}% of income)
+- Liquid Reserves / Savings: ₹${Number(metrics.savings || 0).toLocaleString("en-IN")}
+- Emergency Buffer Runway: ${metrics.emergencyRunwayMonths || 3.0} months
+- Current Financial Goal: "${metrics.goal || "Wealth Accumulation"}" (Target: ₹${Number(metrics.goalAmount || 0).toLocaleString("en-IN")} in ${metrics.targetMonths || 12} months)
+
+CLIENT QUESTION:
+"${message}"
+
+INSTRUCTIONS:
+1. Provide a direct, authoritative, and practical answer referencing their specific numbers where relevant.
+2. Format cleanly with markdown: use bold text for key figures, concise bullet points for action items.
+3. Keep it punchy (around 120-180 words max), clear, and professional.
+4. Do NOT give speculative stock tips or legal disclaimers. Focus on strategic capital allocation, cashflow optimization, and compounding.
+`;
+
+        try {
+            const candidateModels = [
+                { model: "gemini-3.5-flash-lite", config: { temperature: 0.3 } },
+                { model: "gemini-2.5-flash", config: { temperature: 0.3, thinkingConfig: { thinkingBudget: 0 } } }
+            ];
+
+            let aiReply = null;
+            for (const item of candidateModels) {
+                try {
+                    const aiPromise = ai.models.generateContent({
+                        model: item.model,
+                        contents: prompt,
+                        config: item.config
+                    });
+                    const timeoutPromise = new Promise((_, reject) => 
+                        setTimeout(() => reject(new Error("Timeout after 10s")), 10000)
+                    );
+                    const response = await Promise.race([aiPromise, timeoutPromise]);
+                    if (response && response.text) {
+                        aiReply = response.text;
+                        break;
+                    }
+                } catch (e) {
+                    console.warn(`Copilot model ${item.model} failed:`, e.message);
+                }
+            }
+
+            if (aiReply) {
+                return res.json({ success: true, reply: aiReply });
+            }
+        } catch (apiErr) {
+            console.warn("Copilot Gemini API error:", apiErr.message);
+        }
+
+        // High-precision algorithmic contextual fallback
+        const lower = message.toLowerCase();
+        let fallbackReply = "";
+        const surplus = Number(metrics.remaining || 25000);
+        const savings = Number(metrics.savings || 100000);
+        const runway = Number(metrics.emergencyRunwayMonths || 3.0);
+
+        if (lower.includes("invest") || lower.includes("surplus") || lower.includes("where")) {
+            fallbackReply = `With your current monthly surplus of **₹${surplus.toLocaleString("en-IN")}**, here is the optimal 3-tier wealth deployment blueprint:\n\n` +
+                `1. **Core Index SIP (50% • ₹${Math.round(surplus * 0.5).toLocaleString("en-IN")}/mo):** Direct into low-cost broad index funds (Nifty 50 / S&P 500) for consistent 12-14% compounding.\n` +
+                `2. **Passive Yield & Real Estate (25% • ₹${Math.round(surplus * 0.25).toLocaleString("en-IN")}/mo):** Allocate to REITs and Sovereign Gold Bonds (SGB) for dividend flow and inflation hedging.\n` +
+                `3. **Liquid Buffer Accelerator (25% • ₹${Math.round(surplus * 0.25).toLocaleString("en-IN")}/mo):** Channel into flexi-deposits until your emergency runway covers 6 full months.`;
+        } else if (lower.includes("expense") || lower.includes("cut") || lower.includes("save") || lower.includes("reduc")) {
+            fallbackReply = `Auditing your current monthly outflow of **₹${Number(metrics.totalExpenses || 48000).toLocaleString("en-IN")}** reveals two key restructuring levers:\n\n` +
+                `* **Discretionary Optimization:** Lifestyle dining & leisure currently takes **₹${Number(metrics.entertainment || 6000).toLocaleString("en-IN")}**. Trimming this by 20% immediately frees up **₹${Math.round(Number(metrics.entertainment || 6000) * 0.2).toLocaleString("en-IN")}/month**.\n` +
+                `* **Utility & Subscription Audit:** Bundle recurring mobile/internet and cancel redundant streaming tiers to unlock an estimated **₹1,000 - ₹2,000/month**.\n` +
+                `Redirecting these gains straight into your primary goal accelerates completion by up to 2.5 months!`;
+        } else if (lower.includes("emergency") || lower.includes("runway") || lower.includes("safe")) {
+            fallbackReply = `Your emergency runway currently stands at **${runway} months** of essential baseline commitments (Reserve: **₹${savings.toLocaleString("en-IN")}**).\n\n` +
+                `* **Verdict:** ${runway >= 3 ? "Your emergency cushion meets institutional baseline standards (≥3 months)." : "Your liquid cushion is under the ideal 3-month threshold."}\n` +
+                `* **Next Step:** Maintain this reserve in high-yield auto-sweep fixed deposits or liquid arbitrage funds so you earn ~7% yield while retaining instantaneous T+0 liquidity.`;
+        } else {
+            fallbackReply = `Based on your balance sheet featuring **₹${Number(metrics.income).toLocaleString("en-IN")}** monthly inflow and **₹${surplus.toLocaleString("en-IN")}** recurring surplus:\n\n` +
+                `* **Capital Efficiency:** You are saving at a healthy **${metrics.surplusPct || 35}% rate**, comfortably beating the 50/30/20 rule (20% standard).\n` +
+                `* **Goal Traction:** For your target **'${metrics.goal}'**, automate an SIP on salary credit day to eliminate behavioral friction.\n` +
+                `* **Compounding Advantage:** Staying invested over a 5-year horizon at 12% CAGR can multiply this surplus into **₹${Math.round(surplus * 82).toLocaleString("en-IN")}** in accumulated wealth!`;
+        }
+
+        res.json({
+            success: true,
+            reply: fallbackReply
+        });
+
+    } catch (err) {
+        console.error("Copilot Error:", err);
+        res.status(500).json({ error: "Failed to generate AI Copilot response." });
+    }
+});
+
+// ===============================
 // INVESTMENT STRATEGY ENDPOINT (AI WEALTH DEPLOYMENT)
 // ===============================
 app.post("/api/investment-strategy", requireAuthApi, async (req, res) => {

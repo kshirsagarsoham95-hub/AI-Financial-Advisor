@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Executive Wealth Advisory Report | FinAdvisor AI</title>
+    <title>Executive Wealth & Intelligence Dashboard | FinAdvisor AI</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>₹</text></svg>">
     <!-- Chart.js (Local bundle with CDN fallback) -->
@@ -21,20 +21,44 @@
         <div class="ambient-orb orb-4"></div>
     </div>
 
-    <!-- TOP NAVIGATION -->
+    <!-- TOP NAVIGATION BAR -->
     <nav class="navbar">
         <div class="nav-container">
             <a href="/input.html" class="brand">
                 <div class="brand-icon">₹</div>
                 <div>
                     <span class="brand-text">FinAdvisor</span>
-                    <span class="brand-badge">Advisory Report</span>
+                    <span class="brand-badge">Fintech OS</span>
                 </div>
             </a>
+
             <div class="nav-actions">
+                <!-- Theme Toggle Switch (Feature 7) -->
+                <div class="theme-toggle" id="themeToggle" role="button" aria-label="Toggle Dark/Light Mode" title="Toggle Dark/Light Mode">
+                    <div class="theme-toggle-pill"></div>
+                    <button type="button" class="theme-toggle-btn active" id="themeBtnDark" aria-label="Dark Mode">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </button>
+                    <button type="button" class="theme-toggle-btn" id="themeBtnLight" aria-label="Light Mode">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                    </button>
+                </div>
+
                 <a href="/investments/" class="btn-nav-outline" title="Alternative Investments & Wealth Multipliers">
                     <span style="color: var(--accent-emerald);">📈</span>
-                    <span>Investment Strategies</span>
+                    <span>Investments</span>
                 </a>
 
                 <button type="button" class="btn-nav-outline" id="btnPrintReport">
@@ -43,7 +67,7 @@
                         <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
                         <rect x="6" y="14" width="12" height="8"></rect>
                     </svg>
-                    <span>Print / Export PDF</span>
+                    <span>Export PDF</span>
                 </button>
 
                 <a href="/input.html" class="btn-nav-outline" title="Back to Inputs">
@@ -70,14 +94,14 @@
         </div>
     </nav>
 
-    <!-- MAIN REPORT LAYOUT -->
+    <!-- MAIN DASHBOARD CONTENT -->
     <main class="main-layout" id="reportContainer">
 
         <!-- FALLBACK NO DATA BANNER -->
         <div id="noDataBanner" style="display: none; text-align: center; padding: 60px 20px;">
             <div class="card" style="max-width: 500px; margin: 0 auto;">
-                <h2 style="margin-bottom: 12px; color: var(--text-bright);">No Report Found</h2>
-                <p style="color: var(--text-secondary); margin-bottom: 24px;">Please complete the financial assessment questionnaire first to generate your custom advisory dossier.</p>
+                <h2 style="margin-bottom: 12px; color: var(--text-bright);">No Active Assessment Found</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 24px;">Please complete the financial questionnaire first to generate your custom advisory dashboard.</p>
                 <a href="/input.html" class="btn-primary" style="text-decoration: none; justify-content: center;">Go to Assessment (input.html)</a>
             </div>
         </div>
@@ -85,15 +109,15 @@
         <!-- REPORT CONTENT (RENDERED BY JS) -->
         <div id="reportContent">
 
-            <!-- DOSSIER META & HEALTH SCORE HEADER -->
+            <!-- DOSSIER META & HEALTH SCORE HERO HEADER -->
             <section class="report-header-card">
                 <div class="dossier-meta">
-                    <div class="dossier-tag">Confidential Wealth Advisory Dossier</div>
-                    <h1 class="dossier-client" id="clientGoalHeading">Financial Health & Roadmap</h1>
+                    <div class="dossier-tag">Institutional Wealth Intelligence</div>
+                    <h1 class="dossier-client" id="clientGoalHeading">Strategic Wealth & Cashflow Dashboard</h1>
                     <div class="dossier-timestamp">
-                        <span>Prepared for: <strong id="dossierClientEmail">client@finadvisor.ai</strong></span> &bull; 
-                        <span id="dossierDate">September 25, 2026</span> &bull;
-                        <span>Engine: <strong>Gemini 2.5 Strategic Model</strong></span>
+                        <span>Client: <strong id="dossierClientEmail">client@finadvisor.ai</strong></span> &bull; 
+                        <span id="dossierDate">November 2026</span> &bull;
+                        <span>Engine: <strong>Gemini Strategic AI Protocol</strong></span>
                     </div>
                 </div>
 
@@ -108,30 +132,114 @@
                 </div>
             </section>
 
-            <!-- KPI SUMMARY GRID -->
+            <!-- FEATURE 1: GLASSMORPHISM KPI SUMMARY CARDS -->
             <section class="report-kpi-grid">
+                <!-- KPI 1: Estimated Net Worth / Liquid Reserves -->
                 <div class="kpi-card">
-                    <div class="kpi-title">Net Monthly Cashflow</div>
-                    <div class="kpi-metric" id="kpiNetCashflow">₹0</div>
-                    <div class="kpi-subtext" id="kpiNetCashflowSub">Surplus active after commitments</div>
+                    <div class="kpi-card-header">
+                        <span class="kpi-title">Liquid Reserves & Net Worth</span>
+                        <div class="kpi-icon-badge" style="background: var(--accent-indigo-dim); color: var(--primary-light);">💼</div>
+                    </div>
+                    <div class="kpi-metric-row">
+                        <div class="kpi-metric" id="kpiNetWorth">₹1,50,000</div>
+                        <span class="trend-pill positive" id="kpiNetWorthPill">+12.4% MoM</span>
+                    </div>
+                    <div class="kpi-subtext">
+                        <span id="kpiNetWorthSub">Liquid reserves & capital assets</span>
+                    </div>
+                    <div class="kpi-sparkline">
+                        <svg viewBox="0 0 100 24" preserveAspectRatio="none">
+                            <defs>
+                                <linearGradient id="sparkGrad1" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#6366F1" stop-opacity="0.35"/>
+                                    <stop offset="100%" stop-color="#6366F1" stop-opacity="0"/>
+                                </linearGradient>
+                            </defs>
+                            <path d="M0,20 Q20,16 40,18 T70,9 T100,4 L100,24 L0,24 Z" fill="url(#sparkGrad1)"/>
+                            <path d="M0,20 Q20,16 40,18 T70,9 T100,4" fill="none" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
                 </div>
 
+                <!-- KPI 2: Net Monthly Cashflow -->
                 <div class="kpi-card">
-                    <div class="kpi-title">Current Savings Rate</div>
-                    <div class="kpi-metric" id="kpiSavingsRate">0%</div>
-                    <div class="kpi-subtext" id="kpiSavingsRateSub">Benchmark: ≥ 20% of net income</div>
+                    <div class="kpi-card-header">
+                        <span class="kpi-title">Net Monthly Cash Flow</span>
+                        <div class="kpi-icon-badge" style="background: var(--accent-emerald-dim); color: var(--accent-emerald-light);">⚡</div>
+                    </div>
+                    <div class="kpi-metric-row">
+                        <div class="kpi-metric" id="kpiNetCashflow">+₹28,000</div>
+                        <span class="trend-pill positive" id="kpiCashflowPill">+37.3% Inflow</span>
+                    </div>
+                    <div class="kpi-subtext">
+                        <span id="kpiNetCashflowSub">Surplus active after commitments</span>
+                    </div>
+                    <div class="kpi-sparkline">
+                        <svg viewBox="0 0 100 24" preserveAspectRatio="none">
+                            <defs>
+                                <linearGradient id="sparkGrad2" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#10B981" stop-opacity="0.35"/>
+                                    <stop offset="100%" stop-color="#10B981" stop-opacity="0"/>
+                                </linearGradient>
+                            </defs>
+                            <path d="M0,22 Q25,18 50,14 T80,8 T100,3 L100,24 L0,24 Z" fill="url(#sparkGrad2)"/>
+                            <path d="M0,22 Q25,18 50,14 T80,8 T100,3" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
                 </div>
 
+                <!-- KPI 3: Savings Velocity -->
                 <div class="kpi-card">
-                    <div class="kpi-title">Emergency Runway</div>
-                    <div class="kpi-metric" id="kpiRunway">0.0 Mo</div>
-                    <div class="kpi-subtext" id="kpiRunwaySub">Essential living buffer</div>
+                    <div class="kpi-card-header">
+                        <span class="kpi-title">Savings Rate Velocity</span>
+                        <div class="kpi-icon-badge" style="background: var(--accent-cyan-dim); color: var(--accent-cyan-light);">📈</div>
+                    </div>
+                    <div class="kpi-metric-row">
+                        <div class="kpi-metric" id="kpiSavingsRate">37.3%</div>
+                        <span class="trend-pill positive" id="kpiSavingsRatePill">+17.3% vs Target</span>
+                    </div>
+                    <div class="kpi-subtext">
+                        <span id="kpiSavingsRateSub">Benchmark: ≥ 20% of net income</span>
+                    </div>
+                    <div class="kpi-sparkline">
+                        <svg viewBox="0 0 100 24" preserveAspectRatio="none">
+                            <defs>
+                                <linearGradient id="sparkGrad3" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#06B6D4" stop-opacity="0.35"/>
+                                    <stop offset="100%" stop-color="#06B6D4" stop-opacity="0"/>
+                                </linearGradient>
+                            </defs>
+                            <path d="M0,19 Q30,12 60,15 T100,6 L100,24 L0,24 Z" fill="url(#sparkGrad3)"/>
+                            <path d="M0,19 Q30,12 60,15 T100,6" fill="none" stroke="#06B6D4" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
                 </div>
 
+                <!-- KPI 4: Emergency Fund Runway -->
                 <div class="kpi-card">
-                    <div class="kpi-title">Goal Feasibility</div>
-                    <div class="kpi-metric" id="kpiGoalStatus">On Track</div>
-                    <div class="kpi-subtext" id="kpiGoalSub">Target completion projection</div>
+                    <div class="kpi-card-header">
+                        <span class="kpi-title">Emergency Fund Runway</span>
+                        <div class="kpi-icon-badge" style="background: var(--accent-amber-dim); color: var(--accent-amber-light);">🛡️</div>
+                    </div>
+                    <div class="kpi-metric-row">
+                        <div class="kpi-metric" id="kpiRunway">3.1 Mo</div>
+                        <span class="trend-pill neutral" id="kpiRunwayPill">Resilient</span>
+                    </div>
+                    <div class="kpi-subtext">
+                        <span id="kpiRunwaySub">Essential living buffer</span>
+                    </div>
+                    <div class="kpi-sparkline">
+                        <svg viewBox="0 0 100 24" preserveAspectRatio="none">
+                            <defs>
+                                <linearGradient id="sparkGrad4" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#F59E0B" stop-opacity="0.35"/>
+                                    <stop offset="100%" stop-color="#F59E0B" stop-opacity="0"/>
+                                </linearGradient>
+                            </defs>
+                            <path d="M0,16 Q35,16 65,10 T100,5 L100,24 L0,24 Z" fill="url(#sparkGrad4)"/>
+                            <path d="M0,16 Q35,16 65,10 T100,5" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
                 </div>
             </section>
 
@@ -150,14 +258,53 @@
                 </div>
             </section>
 
-            <!-- ANALYTICS ROW: CHARTS & DISPLAY UNITS -->
+            <!-- FEATURE 3: INSTITUTIONAL ANALYTICS ROW -->
+            <div class="section-title-row">
+                <h2 class="section-main-heading">
+                    <span>📊</span>
+                    <span>Institutional Portfolio Diagnostics</span>
+                </h2>
+                <span class="brand-badge">Multi-Dimensional</span>
+            </div>
+
+            <section class="analytics-grid">
+                <!-- CHART A: FINANCIAL HEALTH RADAR CHART -->
+                <div class="chart-card">
+                    <div class="chart-card-header">
+                        <div>
+                            <h3 class="chart-card-title">Financial Health Radar</h3>
+                            <div class="chart-card-subtitle">6-Axis Institutional Solvency & Resilience Audit</div>
+                        </div>
+                        <span class="brand-badge">360° Radar</span>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="healthRadarChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- CHART B: MONTHLY SPENDING & CASHFLOW TREND CHART -->
+                <div class="chart-card">
+                    <div class="chart-card-header">
+                        <div>
+                            <h3 class="chart-card-title">Monthly Cash Flow & Surplus Trajectory</h3>
+                            <div class="chart-card-subtitle">Historical Commitments vs Compounded Capital Growth</div>
+                        </div>
+                        <span class="brand-badge">Trajectory</span>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="cashflowTrendChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- OUTFLOW DISTRIBUTION & 50/30/20 BENCHMARK ROW -->
             <section class="analytics-grid">
                 <!-- CHART 1: MONTHLY OUTFLOW BREAKDOWN -->
                 <div class="chart-card">
                     <div class="chart-card-header">
                         <div>
                             <h3 class="chart-card-title">Monthly Outflow Distribution</h3>
-                            <div class="chart-card-subtitle" id="outflowTotalSubtitle" style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Categorical expenditure vs surplus</div>
+                            <div class="chart-card-subtitle" id="outflowTotalSubtitle">Categorical expenditure vs surplus</div>
                         </div>
                         <span class="brand-badge">Categorical</span>
                     </div>
@@ -175,7 +322,7 @@
                     <div class="chart-card-header">
                         <div>
                             <h3 class="chart-card-title">50 / 30 / 20 Budget Compliance</h3>
-                            <div class="chart-card-subtitle" id="benchmarkSubtitle" style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Standard financial health benchmark</div>
+                            <div class="chart-card-subtitle" id="benchmarkSubtitle">Standard financial health benchmark</div>
                         </div>
                         <span class="brand-badge">Actual vs Ideal</span>
                     </div>
@@ -189,59 +336,158 @@
                 </div>
             </section>
 
-            <!-- DEEP DIVE DIAGNOSTICS & ROADMAP GRID -->
-            <section class="report-content-grid">
-                <!-- SPENDING DIAGNOSTICS -->
-                <div class="section-box">
-                    <div class="section-header">
-                        <h3 class="section-header-title">
-                            <span style="color: var(--accent-amber);">📊</span>
-                            Cashflow & Spending Diagnostics
-                        </h3>
-                        <span class="section-badge status-warning" id="topCostCategory">Living Costs</span>
-                    </div>
-                    <p style="font-size: 14.5px; color: #cbd5e1; margin-bottom: 16px; line-height: 1.7;" id="spendingSummaryText">
-                        Loading spending diagnostics...
-                    </p>
-                    <div style="background: rgba(10, 16, 29, 0.7); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 14px 16px;">
-                        <div style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--accent-cyan); margin-bottom: 4px;">
-                            Identified Optimization Opportunity
+            <!-- FEATURE 5: CATEGORY EXPENSE BREAKDOWN & ANOMALY DETECTION CARDS -->
+            <div class="section-title-row" style="margin-top: 10px;">
+                <h2 class="section-main-heading">
+                    <span>💳</span>
+                    <span>Category Outflows & Anomaly Detection</span>
+                </h2>
+                <span class="brand-badge">Automated Surveillance</span>
+            </div>
+
+            <section class="expense-categories-grid" id="expenseAnomalyGrid">
+                <!-- Populated dynamically by report.js with anomaly alerts -->
+            </section>
+
+            <!-- FEATURE 4: INTERACTIVE "WHAT-IF" WEALTH PROJECTION CALCULATOR -->
+            <div class="section-title-row" style="margin-top: 10px;">
+                <h2 class="section-main-heading">
+                    <span>🔮</span>
+                    <span>Interactive "What-If" Wealth Projection Calculator</span>
+                </h2>
+                <span class="brand-badge">Real-Time Reactive</span>
+            </div>
+
+            <section class="what-if-calculator-card">
+                <div class="what-if-grid">
+                    <!-- CONTROLS -->
+                    <div class="what-if-controls">
+                        <div class="slider-group">
+                            <div class="slider-label-row">
+                                <span class="slider-title">Monthly SIP Deployment</span>
+                                <span class="slider-value-display" id="whatIfSipDisplay">₹28,000</span>
+                            </div>
+                            <input type="range" id="whatIfSipSlider" class="fintech-slider" min="1000" max="100000" step="1000" value="28000">
                         </div>
-                        <div style="font-size: 13.5px; color: var(--text-secondary);" id="spendingLeaksText">
-                            Analyzing potential savings levers...
+
+                        <div class="slider-group">
+                            <div class="slider-label-row">
+                                <span class="slider-title">Expected Portfolio CAGR (% p.a.)</span>
+                                <span class="slider-value-display" id="whatIfCagrDisplay">12.0%</span>
+                            </div>
+                            <input type="range" id="whatIfCagrSlider" class="fintech-slider" min="5" max="20" step="0.5" value="12">
+                        </div>
+
+                        <div class="slider-group">
+                            <div class="slider-label-row">
+                                <span class="slider-title">Investment Time Horizon</span>
+                                <span class="slider-value-display" id="whatIfHorizonDisplay">5 Years</span>
+                            </div>
+                            <input type="range" id="whatIfHorizonSlider" class="fintech-slider" min="1" max="25" step="1" value="5">
+                        </div>
+
+                        <div class="slider-group">
+                            <div class="slider-label-row">
+                                <span class="slider-title">Annual Step-Up Rate (%)</span>
+                                <span class="slider-value-display" id="whatIfStepUpDisplay">10.0%</span>
+                            </div>
+                            <input type="range" id="whatIfStepUpSlider" class="fintech-slider" min="0" max="25" step="1" value="10">
+                        </div>
+                    </div>
+
+                    <!-- RESULTS & REACTIVE CHART -->
+                    <div class="what-if-results-panel">
+                        <div class="what-if-stat-grid">
+                            <div class="what-if-stat-card">
+                                <div class="what-if-stat-label">Total Invested Principal</div>
+                                <div class="what-if-stat-value" id="whatIfInvestedVal" style="color: var(--primary-light);">₹20,51,000</div>
+                            </div>
+                            <div class="what-if-stat-card">
+                                <div class="what-if-stat-label">Estimated Wealth Gain</div>
+                                <div class="what-if-stat-value" id="whatIfGainVal" style="color: var(--accent-emerald-light);">+₹8,74,000</div>
+                            </div>
+                            <div class="what-if-stat-card">
+                                <div class="what-if-stat-label">Projected Corpus</div>
+                                <div class="what-if-stat-value" id="whatIfMaturityVal" style="color: var(--text-bright);">₹29,25,000</div>
+                            </div>
+                            <div class="what-if-stat-card">
+                                <div class="what-if-stat-label">Inflation-Adjusted Real Value</div>
+                                <div class="what-if-stat-value" id="whatIfInflationVal" style="color: var(--accent-cyan-light);">₹21,85,000</div>
+                            </div>
+                        </div>
+
+                        <div class="what-if-chart-wrapper">
+                            <canvas id="projectionChart"></canvas>
                         </div>
                     </div>
                 </div>
+            </section>
 
-                <!-- GOAL ROADMAP & MILESTONES -->
-                <div class="section-box">
-                    <div class="section-header">
-                        <h3 class="section-header-title">
-                            <span style="color: var(--accent-cyan);">🎯</span>
-                            Objective Realization Roadmap
-                        </h3>
-                        <span class="section-badge status-positive" id="goalFeasibilityBadge">Feasible</span>
+            <!-- FEATURE 6: VISUAL MILESTONE TRACKER CARDS -->
+            <div class="section-title-row" style="margin-top: 10px;">
+                <h2 class="section-main-heading">
+                    <span>🎯</span>
+                    <span>Objective Realization & Milestone Tracker</span>
+                </h2>
+                <span class="brand-badge" id="goalFeasibilityBadge">Feasible</span>
+            </div>
+
+            <section class="milestone-tracker-grid">
+                <!-- CIRCULAR PROGRESS CARD -->
+                <div class="goal-circular-card">
+                    <span class="dossier-tag">Primary Capital Goal</span>
+                    <h3 style="font-size: 18px; font-weight: 700; color: var(--text-bright); margin-top: 4px;" id="goalTargetTitle">
+                        Downpayment for Home
+                    </h3>
+
+                    <div class="circular-progress-box">
+                        <svg class="circular-svg" viewBox="0 0 160 160">
+                            <circle class="circle-bg" cx="80" cy="80" r="65"></circle>
+                            <circle class="circle-fill" id="goalRingCircle" cx="80" cy="80" r="65" stroke-dasharray="408.4" stroke-dashoffset="245"></circle>
+                        </svg>
+                        <div class="circular-center-text">
+                            <span class="circular-pct" id="goalRingPctText">40%</span>
+                            <span class="circular-label">Achieved</span>
+                        </div>
                     </div>
-                    <p style="font-size: 14.5px; color: #cbd5e1; margin-bottom: 16px; line-height: 1.7;" id="goalVerdictText">
+
+                    <div style="font-family: var(--font-mono); font-size: 15px; font-weight: 700; color: var(--text-bright); margin-bottom: 4px;" id="goalTargetAmountText">
+                        ₹2,00,000 / ₹5,00,000
+                    </div>
+
+                    <span class="countdown-pill" id="goalCountdownPill">
+                        ⚡ 14 Months Remaining &bull; Targeted Oct 2027
+                    </span>
+                </div>
+
+                <!-- PHASED TIMELINE CARD -->
+                <div class="milestones-timeline-card">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <h4 style="font-size: 16px; font-weight: 700; color: var(--text-bright);">Phased Strategic Execution</h4>
+                        <span style="font-size: 12px; color: var(--accent-cyan);" id="kpiGoalStatus">On Track</span>
+                    </div>
+                    <p style="font-size: 13.5px; color: var(--text-secondary); margin-top: 6px; line-height: 1.6;" id="goalVerdictText">
                         Evaluating goal horizon...
                     </p>
+
                     <div class="milestones-timeline" id="milestonesTimeline">
-                        <!-- Dynamic milestone items will be injected here -->
+                        <!-- Populated by report.js -->
                     </div>
                 </div>
             </section>
 
             <!-- STRATEGIC RECOMMENDATIONS (PRIORITIZED ACTION PLAN) -->
-            <section class="section-box" style="margin-bottom: 30px;">
-                <div class="section-header">
-                    <h3 class="section-header-title">
-                        <span style="color: var(--accent-emerald);">⚡</span>
-                        Prioritized Wealth Action Plan
-                    </h3>
-                    <span class="section-badge status-positive">Actionable Directives</span>
-                </div>
+            <div class="section-title-row" style="margin-top: 10px;">
+                <h2 class="section-main-heading">
+                    <span>⚡</span>
+                    <span>Prioritized Wealth Action Plan</span>
+                </h2>
+                <span class="brand-badge">Actionable Directives</span>
+            </div>
+
+            <section class="section-box" style="margin-bottom: 28px;">
                 <div class="recommendations-container" id="recommendationsContainer">
-                    <!-- Dynamic recommendation cards will be injected here -->
+                    <!-- Populated by report.js -->
                 </div>
             </section>
 
@@ -253,11 +499,11 @@
                         <line x1="12" y1="9" x2="12" y2="13"></line>
                         <line x1="12" y1="17" x2="12.01" y2="17"></line>
                     </svg>
-                    <h3 style="font-size: 18px; font-weight: 700; color: #fb7185;">Risk Radar & Capital Preservation</h3>
+                    <h3 style="font-size: 17px; font-weight: 700; color: var(--accent-rose-light);">Risk Radar & Capital Preservation Shield</h3>
                 </div>
                 <div class="risk-body">
                     <div class="risk-subcard">
-                        <div class="risk-subcard-title">Primary Vulnerability / Blindspot</div>
+                        <div class="risk-subcard-title">Primary Balance Sheet Vulnerability</div>
                         <div class="risk-subcard-content" id="riskPrimaryText">Evaluating balance sheet exposure...</div>
                     </div>
                     <div class="risk-subcard">
@@ -267,25 +513,25 @@
                 </div>
             </section>
 
-            <!-- WEALTH ADVISOR CLOSING VERDICT -->
-            <div class="card" style="text-align: center; margin-top: 30px; padding: 24px 30px; background: rgba(13, 19, 34, 0.75); border: 1px solid var(--border-subtle);">
+            <!-- WEALTH ADVISOR CLOSING COUNSEL -->
+            <div class="card" style="text-align: center; margin-top: 28px; padding: 24px 30px;">
                 <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent-cyan); font-weight: 700; margin-bottom: 8px;">Senior Wealth Advisor Closing Counsel</div>
-                <blockquote style="font-size: 15.5px; font-weight: 500; color: #e2e8f0; font-style: italic; line-height: 1.7; margin: 0; max-width: 820px; margin-inline: auto;" id="advisorClosingVerdict">
+                <blockquote style="font-size: 15.5px; font-weight: 500; color: var(--text-primary); font-style: italic; line-height: 1.7; margin: 0; max-width: 820px; margin-inline: auto;" id="advisorClosingVerdict">
                     "Disciplined execution of incremental financial changes compounds into substantial lifetime freedom."
                 </blockquote>
             </div>
 
             <!-- CAPITAL GROWTH & INVESTMENT STRATEGY CALLOUT -->
-            <section class="card" style="margin-top: 30px; background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(15, 23, 42, 0.85) 100%); border: 1px solid rgba(16, 185, 129, 0.35);">
+            <section class="card" style="margin-top: 28px; background: linear-gradient(135deg, var(--accent-emerald-dim) 0%, var(--bg-surface) 100%); border: 1px solid rgba(16, 185, 129, 0.35);">
                 <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
                     <div>
-                        <div class="dossier-tag" style="color: #34d399;">Capital Growth & Profit Multiplier</div>
-                        <h3 style="font-size: 20px; font-weight: 800; color: #fff; margin: 4px 0 6px;">How to Deploy Your Saved Money & Surplus</h3>
-                        <p style="font-size: 14px; color: #94a3b8; max-width: 620px;">
+                        <div class="dossier-tag" style="color: var(--accent-emerald-light);">Capital Growth & Profit Multiplier</div>
+                        <h3 style="font-size: 20px; font-weight: 800; color: var(--text-bright); margin: 4px 0 6px;">How to Deploy Your Saved Money & Surplus</h3>
+                        <p style="font-size: 14px; color: var(--text-secondary); max-width: 640px;">
                             Explore tailored alternative investment avenues—including Index Compounding, REITs, Sovereign Gold Bonds, and Structured Fixed Income—to compound returns on your monthly surplus.
                         </p>
                     </div>
-                    <a href="/investments/" class="btn-primary" style="text-decoration: none; background: linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);">
+                    <a href="/investments/" class="btn-primary" style="text-decoration: none; background: linear-gradient(135deg, #10B981 0%, #059669 100%); box-shadow: 0 10px 25px var(--accent-emerald-glow);">
                         <span>Explore Alternative Investments</span>
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -297,7 +543,7 @@
 
             <!-- REPORT ACTIONS & PRINT BUTTONS -->
             <div class="report-footer-actions">
-                <a href="/input.html" class="btn-secondary" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+                <a href="/input.html" class="btn-secondary">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="19" y1="12" x2="5" y2="12"></line>
                         <polyline points="12 19 5 12 12 5"></polyline>
@@ -322,6 +568,80 @@
 
         </div>
     </main>
+
+    <!-- ==========================================================================
+         FEATURE 2: DEDICATED AI COPILOT CHAT UI (FLOATING DRAWER & TRIGGER)
+         ========================================================================== -->
+    <!-- Floating Launcher Trigger Button -->
+    <button type="button" class="copilot-floating-trigger" id="copilotTriggerBtn" aria-label="Open FinAdvisor AI Copilot">
+        <span class="copilot-online-dot"></span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+        <span>Ask AI Copilot</span>
+    </button>
+
+    <!-- Backdrop Overlay -->
+    <div class="copilot-backdrop" id="copilotBackdrop"></div>
+
+    <!-- Slide-Out Copilot Drawer Panel -->
+    <aside class="copilot-drawer" id="copilotDrawer" aria-label="FinAdvisor AI Copilot Assistant">
+        <!-- Header -->
+        <div class="copilot-header">
+            <div class="copilot-header-info">
+                <div class="copilot-avatar">✨</div>
+                <div>
+                    <div class="copilot-name">FinAdvisor Copilot</div>
+                    <div class="copilot-status">
+                        <span class="copilot-online-dot" style="width: 6px; height: 6px;"></span>
+                        <span>Institutional Wealth AI</span>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="copilot-close-btn" id="copilotCloseBtn" aria-label="Close Copilot">
+                &times;
+            </button>
+        </div>
+
+        <!-- Chat Conversation Messages Body -->
+        <div class="copilot-body" id="copilotMessages">
+            <div class="copilot-message ai">
+                <div class="copilot-avatar" style="width: 28px; height: 28px; font-size: 13px;">✨</div>
+                <div class="copilot-msg-bubble">
+                    Hello! I'm your dedicated <strong>FinAdvisor AI Copilot</strong>. I have audited your monthly cashflows, surplus, and goals. Ask me any strategic questions or pick a quick prompt below!
+                </div>
+            </div>
+        </div>
+
+        <!-- Floating Quick-Prompt Pills -->
+        <div class="copilot-quick-pills" id="copilotQuickPills">
+            <button type="button" class="copilot-pill" data-prompt="Where should I deploy my monthly surplus for maximum compounding?">
+                💡 Where to deploy monthly surplus?
+            </button>
+            <button type="button" class="copilot-pill" data-prompt="How can I optimize and cut down my highest monthly expenses?">
+                ✂️ How to cut top living costs?
+            </button>
+            <button type="button" class="copilot-pill" data-prompt="Is my current emergency fund runway safe against job loss or shocks?">
+                🛡️ Is my emergency runway safe?
+            </button>
+            <button type="button" class="copilot-pill" data-prompt="How can I achieve my primary savings goal 3 months faster?">
+                🎯 Accelerate target goal completion
+            </button>
+        </div>
+
+        <!-- Input Footer Form -->
+        <div class="copilot-footer">
+            <form id="copilotForm" class="copilot-input-row" autocomplete="off">
+                <input type="text" id="copilotInput" class="copilot-input" placeholder="Ask AI Copilot about your wealth..." required>
+                <button type="submit" class="copilot-send-btn" id="copilotSendBtn" aria-label="Send Message">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </form>
+        </div>
+    </aside>
 
     <script src="report.js"></script>
 </body>

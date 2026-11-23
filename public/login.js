@@ -3,6 +3,10 @@
 // ==========================================================================
 
 document.addEventListener("DOMContentLoaded", () => {
+    // Respect stored theme
+    const savedTheme = localStorage.getItem("finadvisor_theme") || "dark";
+    document.documentElement.setAttribute("data-theme", savedTheme);
+
     const loginForm = document.getElementById("loginForm");
     const loginMessage = document.getElementById("loginMessage");
     const btnLogin = document.getElementById("btnLogin");
