@@ -725,9 +725,13 @@ app.get("/test-ai", async (req, res) => {
 });
 
 // ===============================
-// START SERVER
+// START SERVER (OR EXPORT FOR VERCEL)
 // ===============================
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Financial Advisor running at http://localhost:${PORT}`);
-});
+if (!process.env.VERCEL) {
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => {
+        console.log(`Financial Advisor running at http://localhost:${PORT}`);
+    });
+}
+
+module.exports = app;
