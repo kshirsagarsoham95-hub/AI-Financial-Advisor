@@ -9,6 +9,45 @@ document.addEventListener("DOMContentLoaded", async () => {
     const reportContent = document.getElementById("reportContent");
 
     // ==========================================================================
+    // CHART INSTANCES REGISTRY & THEME CONTROLLER
+    // Declared at the top of the scope to prevent TDZ ReferenceErrors
+    // ==========================================================================
+    const chartInstances = {};
+
+    function updateAllChartThemes(theme) {
+        if (!chartInstances || typeof chartInstances !== "object") return;
+        const isDark = theme === "dark";
+        const gridColor = isDark ? "rgba(255, 255, 255, 0.06)" : "rgba(15, 23, 42, 0.08)";
+        const textColor = isDark ? "#94A3B8" : "#64748B";
+
+        Object.values(chartInstances).forEach(chart => {
+            if (!chart || typeof chart.update !== "function") return;
+            try {
+                if (chart.options && chart.options.scales) {
+                    if (chart.options.scales.r) {
+                        if (chart.options.scales.r.grid) chart.options.scales.r.grid.color = gridColor;
+                        if (chart.options.scales.r.pointLabels) chart.options.scales.r.pointLabels.color = textColor;
+                        if (chart.options.scales.r.angleLines) chart.options.scales.r.angleLines.color = gridColor;
+                    }
+                    if (chart.options.scales.x && chart.options.scales.x.ticks) {
+                        chart.options.scales.x.ticks.color = textColor;
+                    }
+                    if (chart.options.scales.y) {
+                        if (chart.options.scales.y.grid) chart.options.scales.y.grid.color = gridColor;
+                        if (chart.options.scales.y.ticks) chart.options.scales.y.ticks.color = textColor;
+                    }
+                }
+                if (chart.options && chart.options.plugins && chart.options.plugins.legend && chart.options.plugins.legend.labels) {
+                    chart.options.plugins.legend.labels.color = textColor;
+                }
+                chart.update();
+            } catch (err) {
+                console.warn("Chart theme update suppressed:", err);
+            }
+        });
+    }
+
+    // ==========================================================================
     // FEATURE 7: SEAMLESS THEME TOGGLE SWITCH
     // ==========================================================================
     const themeToggle = document.getElementById("themeToggle");
@@ -383,14 +422,137 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     }
 
-    // Strategic Recommendations
+    // ==========================================================================
+    // STRATEGIC RECOMMENDATIONS (CONCRETE PLANS & VERIFIED REFERENCE LINKS)
+    // ==========================================================================
     const recsContainer = document.getElementById("recommendationsContainer");
     if (recsContainer) {
         recsContainer.innerHTML = "";
-        const recommendations = analysis.strategicRecommendations || [];
-        recommendations.forEach(rec => {
-            const priorityClass = (rec.priority || "").toLowerCase().includes("high") ? "priority-high" :
-                (rec.priority || "").toLowerCase().includes("med") ? "priority-medium" : "priority-growth";
+        let recommendations = analysis.strategicRecommendations || [];
+        if (!Array.isArray(recommendations) || recommendations.length === 0) {
+            recommendations = [
+                {
+                    priority: "High",
+                    timeframe: "Immediate (0-30 Days)",
+                    title: "Automate Milestone Goal Accumulation",
+                    impact: `Safeguards ${formatRupee(metrics.monthlyGoalSaving || 15000)}/mo`,
+                    details: "Establish an automated auto-debit standing instruction immediately upon salary credit to isolate investment capital from daily discretionary spending."
+                },
+                {
+                    priority: "Medium",
+                    timeframe: "Month 2-3",
+                    title: "Fortify Liquid Emergency Reserves",
+                    impact: "Target 6-Month Liquidity Shield",
+                    details: `Your current liquid reserves cover ${runway} months of living commitments. Direct excess cashflow into tax-efficient liquid arbitrage before taking speculative risk.`
+                },
+                {
+                    priority: "Growth",
+                    timeframe: "Ongoing",
+                    title: "Deploy Unallocated Cashflow into Broad-Market Index Assets",
+                    impact: "12%–14% CAGR Long-Term Compounding",
+                    details: "Harness systematic rupee cost averaging through low-cost index and flexi-cap vehicles to outpace inflation and double net assets every 5-7 years."
+                }
+            ];
+        }
+
+        const externalLinkIcon = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>`;
+
+        recommendations.forEach((rec, idx) => {
+            const priorityLower = (rec.priority || "").toLowerCase();
+            const priorityClass = priorityLower.includes("high") ? "priority-high" :
+                priorityLower.includes("med") ? "priority-medium" : "priority-growth";
+
+            let planHtml = "";
+            let linksHtml = "";
+
+            const targetGoalMonthly = Math.max(1000, Number(metrics.monthlyGoalSaving) || (netCashflow > 0 ? Math.round(netCashflow * 0.5) : 15000));
+            const emergencyTargetAmount = Math.max(100000, (rentVal + foodVal + transportVal + billsVal) * 6);
+            const monthlyEmergencyAlloc = Math.max(1500, Math.round(netCashflow > 0 ? netCashflow * 0.35 : 5000));
+            const monthlyGrowthAlloc = Math.max(2000, Math.round(netCashflow > 0 ? netCashflow * 0.5 : 10000));
+
+            if (priorityLower.includes("high") || idx === 0) {
+                planHtml = `
+                    <div class="rec-plan-box">
+                        <div class="rec-plan-label">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                            Recommended Execution Plan
+                        </div>
+                        <div class="rec-plan-text">
+                            <strong>Target Action:</strong> Set up automated auto-debit of <strong>${formatRupee(targetGoalMonthly)}/month</strong> on salary credit day (1st of month).<br>
+                            <strong>Allocation:</strong> 60% UTI Nifty 50 Index Fund Direct Growth (0.18% TER) + 40% Parag Parikh Flexi Cap Direct (0.62% TER). Fulfills '${goalTitle}' target in ~${targetMonths} months.
+                        </div>
+                    </div>
+                `;
+                linksHtml = `
+                    <a href="https://coin.zerodha.com" target="_blank" rel="noopener noreferrer" class="rec-link-btn">
+                        <span>Zerodha Coin</span>
+                        ${externalLinkIcon}
+                    </a>
+                    <a href="https://groww.in/mutual-funds" target="_blank" rel="noopener noreferrer" class="rec-link-btn">
+                        <span>Groww Direct SIP</span>
+                        ${externalLinkIcon}
+                    </a>
+                    <a href="https://www.amfiindia.com" target="_blank" rel="noopener noreferrer" class="rec-link-btn">
+                        <span>AMFI India</span>
+                        ${externalLinkIcon}
+                    </a>
+                `;
+            } else if (priorityLower.includes("med") || idx === 1) {
+                planHtml = `
+                    <div class="rec-plan-box">
+                        <div class="rec-plan-label">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                            Recommended Execution Plan
+                        </div>
+                        <div class="rec-plan-text">
+                            <strong>Liquidity Fortress Target:</strong> Build reserve from current <strong>${formatRupee(currentSavings)}</strong> (${runway} mo) to <strong>${formatRupee(emergencyTargetAmount)}</strong> (6 mo runway).<br>
+                            <strong>Vehicle:</strong> Deploy <strong>${formatRupee(monthlyEmergencyAlloc)}/month</strong> into Nippon India Arbitrage Fund Direct Growth (~7.2% yield, taxed as equity, T+1 redemption) or RBI Retail Direct Treasury Bills.
+                        </div>
+                    </div>
+                `;
+                linksHtml = `
+                    <a href="https://rbiretaildirect.org.in" target="_blank" rel="noopener noreferrer" class="rec-link-btn">
+                        <span>RBI Retail Direct</span>
+                        ${externalLinkIcon}
+                    </a>
+                    <a href="https://www.valueresearchonline.com/funds/selector/category/125/hybrid-arbitrage/" target="_blank" rel="noopener noreferrer" class="rec-link-btn">
+                        <span>Value Research Online</span>
+                        ${externalLinkIcon}
+                    </a>
+                    <a href="https://kuvera.in" target="_blank" rel="noopener noreferrer" class="rec-link-btn">
+                        <span>Kuvera Smart Emergency</span>
+                        ${externalLinkIcon}
+                    </a>
+                `;
+            } else {
+                planHtml = `
+                    <div class="rec-plan-box">
+                        <div class="rec-plan-label">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                            Recommended Execution Plan
+                        </div>
+                        <div class="rec-plan-text">
+                            <strong>Capital Growth Allocation:</strong> Deploy <strong>${formatRupee(monthlyGrowthAlloc)}/month</strong> unallocated surplus across high-yield compounding assets.<br>
+                            <strong>Diversification:</strong> 70% Core Broad-Market Equities, 15% Commercial REITs (Embassy / Nexus Select for 7-9% quarterly yields), and 15% Senior Secured Debt (9.5-11.5% fixed yields).
+                        </div>
+                    </div>
+                `;
+                linksHtml = `
+                    <a href="https://www.niftyindices.com/indices/equity/strategy-indices/nifty-dividend-opportunities-50" target="_blank" rel="noopener noreferrer" class="rec-link-btn">
+                        <span>NSE Nifty Indices</span>
+                        ${externalLinkIcon}
+                    </a>
+                    <a href="https://www.wintwealth.com" target="_blank" rel="noopener noreferrer" class="rec-link-btn">
+                        <span>Wint Wealth Bonds</span>
+                        ${externalLinkIcon}
+                    </a>
+                    <a href="https://www.screener.in" target="_blank" rel="noopener noreferrer" class="rec-link-btn">
+                        <span>Screener.in</span>
+                        ${externalLinkIcon}
+                    </a>
+                `;
+            }
+
             const card = document.createElement("div");
             card.className = "rec-card";
             card.innerHTML = `
@@ -400,6 +562,11 @@ document.addEventListener("DOMContentLoaded", async () => {
                 </div>
                 <h4 class="rec-title">${rec.title || "Strategic Recommendation"}</h4>
                 <p class="rec-details">${rec.details || ""}</p>
+                ${planHtml}
+                <div class="rec-links-row">
+                    <span style="font-size: 11px; font-weight: 700; color: var(--text-muted); align-self: center; margin-right: 4px;">Verified References:</span>
+                    ${linksHtml}
+                </div>
             `;
             recsContainer.appendChild(card);
         });
@@ -545,36 +712,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     // ==========================================================================
     // FEATURE 3: INSTITUTIONAL CHART ENGINES (CHART.JS)
     // ==========================================================================
-    const chartInstances = {};
-
-    function updateAllChartThemes(theme) {
-        const isDark = theme === "dark";
-        const gridColor = isDark ? "rgba(255, 255, 255, 0.06)" : "rgba(15, 23, 42, 0.08)";
-        const textColor = isDark ? "#94A3B8" : "#64748B";
-
-        Object.values(chartInstances).forEach(chart => {
-            if (!chart) return;
-            if (chart.options.scales) {
-                if (chart.options.scales.r) {
-                    chart.options.scales.r.grid.color = gridColor;
-                    chart.options.scales.r.pointLabels.color = textColor;
-                    chart.options.scales.r.angleLines.color = gridColor;
-                }
-                if (chart.options.scales.x) {
-                    chart.options.scales.x.ticks.color = textColor;
-                }
-                if (chart.options.scales.y) {
-                    chart.options.scales.y.grid.color = gridColor;
-                    chart.options.scales.y.ticks.color = textColor;
-                }
-            }
-            if (chart.options.plugins && chart.options.plugins.legend) {
-                chart.options.plugins.legend.labels.color = textColor;
-            }
-            chart.update();
-        });
-    }
-
     if (typeof Chart !== "undefined") {
         const isDark = (document.documentElement.getAttribute("data-theme") || "dark") === "dark";
         const gridColor = isDark ? "rgba(255, 255, 255, 0.06)" : "rgba(15, 23, 42, 0.08)";
