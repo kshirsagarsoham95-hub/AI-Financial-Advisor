@@ -758,7 +758,7 @@ body {
    REPORT DASHBOARD HERO (REPORT.HTML)
    ========================================================================== */
 
-/* â”€â”€ Section Tab Navigation (Report page) â”€â”€ */
+/* -- Section Tab Navigation (Report page) -- */
 .section-tab-nav {
     background: rgba(0, 0, 0, 0.9);
     backdrop-filter: blur(16px);
@@ -1429,7 +1429,7 @@ body {
     margin-bottom: 24px;
 }
 
-/* â”€â”€ Top row: category chips â”€â”€ */
+/* -- Top row: category chips -- */
 .cockpit-categories {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
@@ -1512,14 +1512,14 @@ body {
     font-weight: 700;
 }
 
-/* â”€â”€ Divider â”€â”€ */
+/* -- Divider -- */
 .cockpit-divider {
     height: 1px;
     background: var(--border-subtle);
     margin: 16px 0;
 }
 
-/* â”€â”€ Bottom row: sliders | kpis | chart â”€â”€ */
+/* -- Bottom row: sliders | kpis | chart -- */
 .cockpit-projection {
     display: grid;
     grid-template-columns: 220px 1fr 1fr;
