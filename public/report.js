@@ -165,6 +165,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (reportUserEmail) reportUserEmail.textContent = clientEmail;
     if (reportUserAvatar) reportUserAvatar.textContent = clientEmail.charAt(0).toUpperCase();
     if (dossierClientEmail) dossierClientEmail.textContent = clientEmail;
+
+    // Check admin role for navigation bar
+    fetch("/api/me").then(res => res.json()).then(me => {
+        if (me && me.role === "admin") {
+            const navDbHub = document.getElementById("navDbHub");
+            if (navDbHub) navDbHub.style.display = "inline-flex";
+            if (reportUserAvatar) reportUserAvatar.textContent = "👑";
+        }
+    }).catch(() => {});
     if (dossierDate) {
         const now = new Date(reportData.generatedAt || Date.now());
         dossierDate.textContent = now.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });

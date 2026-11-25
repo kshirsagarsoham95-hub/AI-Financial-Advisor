@@ -88,6 +88,11 @@ document.addEventListener("DOMContentLoaded", async () => {
                 invUserEmail.textContent = authData.email;
                 invUserAvatar.textContent = authData.email.charAt(0).toUpperCase();
             }
+            if (authData.role === "admin") {
+                const navDbHub = document.getElementById("navDbHub");
+                if (navDbHub) navDbHub.style.display = "inline-flex";
+                invUserAvatar.textContent = "👑";
+            }
         }
     } catch (e) {
         console.warn("Could not fetch user session:", e);

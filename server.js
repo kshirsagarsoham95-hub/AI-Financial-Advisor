@@ -4,6 +4,8 @@ const express = require("express");
 const session = require("express-session");
 const { GoogleGenAI } = require("@google/genai");
 const path = require("path");
+const db = require("./db");
+const { createUser, authenticateUser, findUserByEmail } = require("./users");
 
 const app = express();
 
@@ -55,6 +57,32 @@ function requireAuthApi(req, res, next) {
     next();
 }
 
+// Admin role check middleware (Page Redirect)
+function requireAdmin(req, res, next) {
+    if (!req.session.loggedIn) {
+        return res.redirect("/");
+    }
+    if (req.session.role !== "admin") {
+        return res.status(403).redirect("/advisor?auth_error=admin_required");
+    }
+    next();
+}
+
+// Admin role check middleware (API JSON Response)
+function requireAdminApi(req, res, next) {
+    if (!req.session.loggedIn) {
+        return res.status(401).json({
+            error: "Authentication required. Please log in first."
+        });
+    }
+    if (req.session.role !== "admin") {
+        return res.status(403).json({
+            error: "Access denied. Administrator privileges required to access database endpoints."
+        });
+    }
+    next();
+}
+
 // ===============================
 // ROUTE: ROOT & LOGIN
 // ===============================
@@ -74,14 +102,49 @@ app.post("/login", (req, res) => {
         });
     }
 
-    // Demo authentication: Accept credentials and store session
+    const user = authenticateUser(email, password);
+    if (!user) {
+        return res.status(401).json({
+            error: "Invalid email or password. Please verify your credentials or create a new account."
+        });
+    }
+
     req.session.loggedIn = true;
-    req.session.email = email;
+    req.session.email = user.email;
+    req.session.userName = user.name;
+    req.session.role = user.role || "client";
 
     res.json({
         success: true,
-        email: email
+        email: user.email,
+        name: user.name,
+        role: req.session.role
     });
+});
+
+app.post("/register", (req, res) => {
+    const { name, email, password } = req.body;
+
+    try {
+        const newUser = createUser({ name, email, password });
+
+        req.session.loggedIn = true;
+        req.session.email = newUser.email;
+        req.session.userName = newUser.name;
+        req.session.role = "client";
+
+        res.status(201).json({
+            success: true,
+            message: "Account created successfully!",
+            email: newUser.email,
+            name: newUser.name,
+            role: "client"
+        });
+    } catch (err) {
+        res.status(400).json({
+            error: err.message || "Failed to create account."
+        });
+    }
 });
 
 app.get("/logout", (req, res) => {
@@ -94,7 +157,9 @@ app.get("/api/me", (req, res) => {
     if (req.session.loggedIn) {
         res.json({
             loggedIn: true,
-            email: req.session.email || "client@finadvisor.ai"
+            email: req.session.email || "client@finadvisor.ai",
+            name: req.session.userName || (req.session.email ? req.session.email.split("@")[0] : "Client"),
+            role: req.session.role || "client"
         });
     } else {
         res.status(401).json({ loggedIn: false });
@@ -134,6 +199,15 @@ app.get("/investments", requireAuth, (req, res) => {
 
 app.get("/investments/index.html", requireAuth, (req, res) => {
     res.sendFile(path.join(__dirname, "public", "investments", "index.html"));
+});
+
+// Dedicated SQLite Database Explorer & Inspector (Admin Only)
+app.get("/database", requireAdmin, (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "database.html"));
+});
+
+app.get("/database.html", requireAdmin, (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "database.html"));
 });
 
 // ===============================
@@ -449,6 +523,17 @@ Return ONLY a valid JSON object matching the following structure exactly (withou
             userEmail: req.session.email || "client@finadvisor.ai"
         };
 
+        // Persist assessment into SQLite database
+        try {
+            db.saveAssessment({
+                userEmail: req.session.email || "client@finadvisor.ai",
+                metrics: metrics,
+                analysis: parsedAnalysis
+            });
+        } catch (dbErr) {
+            console.warn("Notice: could not save assessment to SQLite:", dbErr.message);
+        }
+
         res.json({
             success: true,
             analysis: parsedAnalysis,
@@ -707,6 +792,58 @@ Return ONLY valid JSON matching this exact structure:
             error: err.message || "Failed to generate investment strategy."
         });
     }
+});
+
+// ===============================
+// DATABASE EXPLORER API (ADMIN PRIVILEGED)
+// ===============================
+app.get("/api/database/stats", requireAdminApi, (req, res) => {
+    try {
+        const stats = db.getDatabaseStats();
+        res.json({ success: true, stats });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+app.get("/api/database/table/:tableName", requireAdminApi, (req, res) => {
+    try {
+        const { tableName } = req.params;
+        let rows = [];
+        if (tableName === "users") {
+            rows = db.getAllUsers(true);
+        } else if (tableName === "assessments") {
+            rows = db.getAllAssessments(100);
+        } else if (tableName === "activity_logs") {
+            rows = db.getActivityLogs(100);
+        } else {
+            return res.status(404).json({ error: "Table not found." });
+        }
+        res.json({
+            success: true,
+            table: tableName,
+            columns: rows.length > 0 ? Object.keys(rows[0]) : [],
+            rowCount: rows.length,
+            rows
+        });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+app.post("/api/database/query", requireAdminApi, (req, res) => {
+    try {
+        const { query } = req.body;
+        const result = db.executeSafeQuery(query);
+        db.logActivity(req.session.email, "ADMIN_SQL_QUERY", (query || "").substring(0, 80));
+        res.json({ success: true, ...result });
+    } catch (e) {
+        res.status(400).json({ error: e.message });
+    }
+});
+
+app.get("/api/database/download", requireAdmin, (req, res) => {
+    res.download(db.DB_PATH, "financial_advisor.db");
 });
 
 // ===============================
